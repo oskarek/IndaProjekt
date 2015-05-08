@@ -2,11 +2,10 @@ import java.awt.*;
 
 /**
  * SKELETON CODE
- * The main board for the game.
+ * The board that you control in the game.
  *
  * Created by oskarek on 2015-05-07.
  */
-public class Board {
-    Color backgroundColor;
-
+public class Board extends PlayingFieldItem {
+    private PowerUp currentPowerUp;
 }

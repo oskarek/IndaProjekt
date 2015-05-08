@@ -4,6 +4,6 @@
  *
  * Created by oskarek on 2015-05-07.
  */
-public class BoardItem {
+public class PlayingFieldItem {
     private int xPosition, yPosition;
 }
