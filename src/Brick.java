@@ -3,6 +3,6 @@
  *
  * Created by oskarek on 2015-05-07.
  */
-public class Brick {
+public class Brick extends BoardItem {
     private int length;
 }
