@@ -1,4 +1,6 @@
 import java.awt.*;
+import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
 
 /**
  * SKELETON CODE

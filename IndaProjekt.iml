@@ -7,6 +7,20 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="slick" level="project" />
+    <orderEntry type="module-library">
+      <library name="Slick2D">
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/libs/slick/lib" />
+        </CLASSES>
+        <JAVADOC />
+        <NATIVE>
+          <root url="jar://$MODULE_DIR$/libs/slick/lib/natives-mac.jar!/" />
+        </NATIVE>
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/libs/slick/src" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/libs/slick/lib" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
