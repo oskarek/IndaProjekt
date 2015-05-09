@@ -5,4 +5,12 @@
  */
 public class Ball extends PlayingFieldItem {
     private int velocity;
+
+    public int getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(int velocity) {
+        this.velocity = velocity;
+    }
 }

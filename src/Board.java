@@ -1,5 +1,3 @@
-import java.awt.*;
-
 /**
  * SKELETON CODE
  * The board that you control in the game.
