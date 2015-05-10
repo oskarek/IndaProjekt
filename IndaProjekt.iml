@@ -14,7 +14,7 @@
         </CLASSES>
         <JAVADOC />
         <NATIVE>
-          <root url="jar://$MODULE_DIR$/libs/slick/lib/natives-mac.jar!/" />
+          <root url="file://$MODULE_DIR$/libs/slick/native" />
         </NATIVE>
         <SOURCES>
           <root url="file://$MODULE_DIR$/libs/slick/src" />
