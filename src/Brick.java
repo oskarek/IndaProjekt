@@ -6,7 +6,7 @@ import org.newdawn.slick.SlickException;
  *
  * Created by oskarek on 2015-05-07.
  */
-public class Brick extends PlayingFieldItem {
+public class Brick implements PlayingFieldItem {
     private int width;
     private int height;
     private int xPosition;

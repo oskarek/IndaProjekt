@@ -1,4 +1,5 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.RoundedRectangle;
 
 /**
  * SKELETON CODE
@@ -6,21 +7,16 @@ import org.newdawn.slick.*;
  *
  * Created by oskarek on 2015-05-07.
  */
-public class Board extends PlayingFieldItem {
+public class Board extends RoundedRectangle {
     private PowerUp currentPowerUp;
-    private int length;
-    private int height;
     private Image boardImage;
-    private int xPos;
-    private int yPos;
     private int speed;
 
-    public Board() throws SlickException {
+    public Board(float x, float y, float width, float height, float cornerRadius) throws SlickException {
+        super(x, y, width, height, cornerRadius);
         boardImage = new Image("res/UIButtons/board.png");
-        length = boardImage.getWidth();
-        height = boardImage.getHeight();
         speed = 3;
-    };
+    }
 
     public int getSpeed(){
         return speed;
@@ -30,38 +26,7 @@ public class Board extends PlayingFieldItem {
         this.speed = speed;
     }
 
-    public int getLength(){
-        return length;
-    }
-    public void setLength(int length){
-        this.length = length;
-    }
-
-    public int getHeight(){
-        return height;
-    }
-
-    public int getyPos(){
-        return yPos;
-    }
-
-    public void setyPos(int yPos){
-        this.yPos = yPos;
-    }
-
-    public int getxPos(){
-        return xPos;
-    }
-
-    public void setxPos(int xPos){
-        this.xPos = xPos;
-    }
-
     public Image getBoardImage(){
         return boardImage;
-    }
-
-    public void setBoardSize(Image image){
-        boardImage = image;
     }
 }

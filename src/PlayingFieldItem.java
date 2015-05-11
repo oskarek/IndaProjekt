@@ -4,6 +4,5 @@
  *
  * Created by oskarek on 2015-05-07.
  */
-public class PlayingFieldItem {
-    private int xPosition, yPosition;
+public interface PlayingFieldItem {
 }

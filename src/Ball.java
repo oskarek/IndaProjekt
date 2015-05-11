@@ -1,66 +1,47 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Circle;
+
 /**
  * A ball in the game
  *
  * Created by Robert Lorentz on 08/05/15.
  */
-public class Ball extends PlayingFieldItem {
-    private int xSpeed;
-    private int ySpeed;
-    private int yPosition;
-    private int xPosition;
-    private int diameter;
+public class Ball extends Circle {
+    private float xSpeed;
+    private float ySpeed;
     private Image ballImage;
 
-    public Ball() throws SlickException {
+    public Ball(float centerPointX, float centerPointY, float radius) throws SlickException {
+        super(centerPointX,centerPointY,radius);
         ballImage = new Image("res/UIButtons/ball.png");
 
         //initiating values
         xSpeed = -1;
         ySpeed = -1;
-        diameter = ballImage.getWidth();
-        xPosition = 300;
-        yPosition = 10;
     }
 
-    public int getxSpeed() {
+    public float getxSpeed() {
         return xSpeed;
     }
 
-    public int getySpeed() {
+    public float getySpeed() {
         return ySpeed;
     }
 
-    public int getyPosition() {
-        return yPosition;
-    }
-
-    public int getxPosition() {
-        return xPosition;
-    }
-
-    public int getDiameter(){
-        return diameter;
-    }
-
-    public void setxSpeed(int xSpeed) {
+    public void setxSpeed(float xSpeed) {
         this.xSpeed = xSpeed;
     }
 
-    public void setySpeed(int ySpeed) {
+    public void setySpeed(float ySpeed) {
         this.ySpeed = ySpeed;
     }
 
-    public void setyPosition(int yPosition) {
-        this.yPosition = yPosition;
+    public void reverseXSpeed() {
+        xSpeed *= -1;
     }
 
-    public void setxPosition(int xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    public void setDiameter(int diameter){
-        this.diameter = diameter;
+    public void reverseYSpeed() {
+        ySpeed *= -1;
     }
 
     public Image getBallImage(){
