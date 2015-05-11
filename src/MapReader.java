@@ -10,13 +10,13 @@ import java.io.IOException;
 public class MapReader{
 
 public MapReader(String file){
-    try {
+    /*try {
         BufferedReader br = new BufferedReader(new FileReader(file));
     } catch (IOException e) {
         System.err.println("IOException: " + e.getMessage());
     } catch (FileNotFoundException e){
 
-    }
+    }*/
 
 
 }
