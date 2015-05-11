@@ -56,7 +56,7 @@ public class MainMenu extends BasicGameState {
         pressedButtons.add(new Image("res/UIButtons/quitbutton_pressed.png"));
 
         // turn the images into buttons
-        int lastYBottomPos = 100;
+        int lastYBottomPos = 50;
         for (int i = 0; i < buttons.size(); i++) {
             Image button = buttons.get(i);
 
