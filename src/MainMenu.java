@@ -100,5 +100,13 @@ public class MainMenu extends BasicGameState {
         if (buttonAreas.get(QUIT_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             container.exit();
         }
+
+        if (buttonAreas.get(HIGHSCORE_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            game.enterState(2, new FadeOutTransition(), new FadeInTransition());
+        }
+
+        if (buttonAreas.get(POWERUPS_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            game.enterState(3, new FadeOutTransition(), new FadeInTransition());
+        }
     }
 }

@@ -1,34 +1,18 @@
-import org.newdawn.slick.*;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * SKELETON CODE
- * The main playing field for the game.
- *
- * Created by oskarek on 2015-05-07.
+ * Created by RobertLorentz on 11/05/15.
  */
-public class PlayingField extends BasicGameState {
-
+public class PowerupsScreen extends BasicGameState {
     @Override
-    public int getID() {
-        return 1;
-    }
+    public int getID() { return 3; }
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-
-    }
-
-    public void createBricks(GameContainer container) throws SlickException {
-
-    }
-
-    public void createBall(GameContainer container) throws SlickException {
-
-    }
-
-    public void createBoard() throws SlickException {
 
     }
 

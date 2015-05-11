@@ -1,6 +1,4 @@
-import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,21 +19,12 @@ public class MainGame extends StateBasedGame {
     public void initStatesList(GameContainer container) throws SlickException {
         addState(new MainMenu());
         addState(new PlayingField());
+        addState(new HighscoreScreen());
+        addState(new PowerupsScreen());
     }
 
-    public static void main(String[] args) throws SlickException, LWJGLException {
+    public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new MainGame("Test app"));
-
-        DisplayMode[] modes = Display.getAvailableDisplayModes();
-        for (DisplayMode mode : modes) {
-            System.out.println();
-            System.out.print("Height: ");
-            System.out.println(mode.getHeight());
-            System.out.print("Width: ");
-            System.out.println(mode.getWidth());
-            System.out.print("Fullscreen capable: ");
-            System.out.println(mode.isFullscreenCapable());
-        }
 
         app.setDisplayMode(1000, 600, false);
 
