@@ -1,2 +1,0 @@
-bricks are shown in this order: xPos, yPos, lives
-0 0 1

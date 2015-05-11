@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -14,6 +15,18 @@ public class HighscoreTool {
     public void insertScore(int score, String name) {
         ArrayList<String> entries = createNewOrder(score, name);
         updateFile(entries);
+    }
+
+    public ArrayList<String> returnScore() {
+        ArrayList<String> highscoreList = new ArrayList<>();
+        try(BufferedReader file = new BufferedReader(new FileReader(FILENAME))) {
+            for(String currentLine=file.readLine();currentLine!=null;currentLine=file.readLine()) {
+                highscoreList.add(currentLine);
+            }
+        } catch(IOException e){
+            System.err.println("Failed to read the highscore file.");
+        }
+        return highscoreList;
     }
 
     private ArrayList<String> createNewOrder(int score, String name) {

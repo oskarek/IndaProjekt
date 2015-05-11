@@ -1,11 +1,17 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
+import java.awt.Font;
+import org.newdawn.slick.util.ResourceLoader;
+import java.io.InputStream;
 import java.util.ArrayList;
+
 
 /**
  * Game state with highscore screen.
@@ -14,6 +20,10 @@ import java.util.ArrayList;
  */
 public class HighscoreScreen extends BasicGameState {
     private MouseOverArea backButtonArea;
+    private ArrayList<String> highscoreList;
+    private HighscoreTool highscoreTool;
+    private TrueTypeFont font;
+    private TrueTypeFont font2;
 
     @Override
     public int getID() { return 2; }
@@ -33,17 +43,45 @@ public class HighscoreScreen extends BasicGameState {
 
         // load the pressed button images as "back button pressed"
         backButtonArea.setMouseDownImage(backButtonPressed);
-
     }
+
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         createButtons(container);
+        highscoreTool = new HighscoreTool();
+        highscoreList = highscoreTool.returnScore();
+
+        // load a default java font
+        Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+        font = new TrueTypeFont(awtFont, true);
+
+        // load font from a .ttf file
+        try {
+            InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/learningcurve.ttf");
+
+            Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
+            awtFont2 = awtFont2.deriveFont(24f); // set font size
+            font2 = new TrueTypeFont(awtFont2, false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         // render the button
         backButtonArea.render(container,g);
+
+        g.drawImage(new Image("res/UIButtons/star.png"),120, -100);
+        int x = 420; int y = 130;
+        for (int i = 0; i < highscoreList.size();i++) {
+            String currentScore = highscoreList.get(i);
+            font.drawString(x,y,i+1 + ": " + currentScore,Color.black);
+            y+=30;
+        }
     }
 
     @Override

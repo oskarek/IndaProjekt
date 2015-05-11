@@ -1,0 +1,2 @@
+xPos, yPos, lives
+0 0 1
