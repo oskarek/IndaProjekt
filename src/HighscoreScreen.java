@@ -57,11 +57,11 @@ public class HighscoreScreen extends BasicGameState {
 
         // load font from a .ttf file
         try {
-            InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/learningcurve.ttf");
+            InputStream inputStream = ResourceLoader.getResourceAsStream("res/fonts/caricature.ttf");
 
             Font awtFont2 = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             awtFont2 = awtFont2.deriveFont(24f); // set font size
-            font2 = new TrueTypeFont(awtFont2, false);
+            font2 = new TrueTypeFont(awtFont2, true);
 
         } catch (Exception e) {
             e.printStackTrace();

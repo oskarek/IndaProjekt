@@ -7,6 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +21,12 @@ public class PlayingField extends BasicGameState {
     private static final int DIRECTION_RIGHT = 1;
     Board board;
     Ball ball;
-    ArrayList<Rectangle> bricks;
+    ArrayList<Brick> bricks;
+
+
+    private enum Direction {
+        NORTH, SOUTH, WEST, EAST;
+    }
 
     @Override
     public int getID() {
@@ -32,17 +38,30 @@ public class PlayingField extends BasicGameState {
         // dimensions of the container
         contHeight = container.getHeight();
         contWidth = container.getWidth();
+
         board = new Board(0,contHeight-30,50,10,4);
         ball = new Ball(80,80,10);
         bricks = new ArrayList<>();
+        initBricks();
 
-        bricks.add(new Rectangle(20,20,40,30));
 
+    }
+    public void initBricks() throws SlickException {
+        MapReader mapReader = new MapReader();
+        ArrayList<ArrayList<Integer>> mapOneInfo = mapReader.readMap(1);
+        ArrayList<Integer> brickXPositions = mapOneInfo.get(0);
+        ArrayList<Integer> brickYPositions = mapOneInfo.get(1);
+        ArrayList<Integer> brickLevels = mapOneInfo.get(2);
+
+        for(int i=0;i<brickXPositions.size();i++){
+            int x = brickXPositions.get(i); int y = brickYPositions.get(i); int life = brickLevels.get(i);
+            bricks.add(new Brick(x,y,life,new Rectangle(x,y,50,40)));
+        }
     }
 
     public void drawBricks(Graphics g) throws SlickException {
-        for (Rectangle brick : bricks) {
-            g.draw(brick);
+        for (Brick brick : bricks) {
+            brick.draw(g);
         }
     }
 
@@ -53,7 +72,7 @@ public class PlayingField extends BasicGameState {
     private void updateBallPos()throws SlickException {
         int leftwallPos = 0; int ceilingPos = 0;
         float newxPos = (ball.getX()+ball.getxSpeed());
-        float newyPos = (ball.getX()+ball.getySpeed());
+        float newyPos = (ball.getY()+ball.getySpeed());
         ball.setLocation(newxPos, newyPos);
 
         if (ball.getMaxY() >= contHeight) {
@@ -72,7 +91,7 @@ public class PlayingField extends BasicGameState {
             ball.setX(leftwallPos);
             ball.reverseXSpeed();
         }
-        if (ball.intersects(board) || ball.contains(board)) {
+        if (ball.intersects(board)) {
             ball.reverseYSpeed();
         }
     }

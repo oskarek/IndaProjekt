@@ -24,7 +24,7 @@ public class MainGame extends StateBasedGame {
     }
 
     public static void main(String[] args) throws SlickException {
-        AppGameContainer app = new AppGameContainer(new MainGame("Robert är fan bäst"));
+        AppGameContainer app = new AppGameContainer(new MainGame("Brick Breaker"));
 
         app.setDisplayMode(1000, 600, false);
 
