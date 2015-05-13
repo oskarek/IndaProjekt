@@ -16,4 +16,10 @@ public class CollideChecker {
                 Math.pow(ball.getCenterY()-collideCircle.getCenterY(),2))));
         return new Speed(xSpeed, ySpeed);
     }
+    /*public Speed getSpeedAfterCollision2(Ball ball, Board board){
+        float ySpeed = (float) ball.getySpeed()/(Math.abs(ball.getX()+ball.getRadius()-(board.getX()+board.getLength()/2)+3));
+        float xSpeed = ball.getxSpeed();
+        return new Speed(xSpeed,ySpeed);
+    }
+    */
 }

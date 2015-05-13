@@ -14,6 +14,7 @@ public class Board {
     private PowerUp currentPowerUp;
     private Image boardImage;
     private int speed;
+    private int score;
 
     public Board(float x, float y, float length, float height) throws SlickException {
         xPos = x; yPos = y; this.length = length; this.height = height;
@@ -85,4 +86,7 @@ public class Board {
     public Image getBoardImage(){
         return boardImage;
     }
+
+    public void incrementScore(){ score++;}
+    public int getScore(){ return score; }
 }

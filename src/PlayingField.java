@@ -154,8 +154,9 @@ public class PlayingField extends BasicGameState {
             ball.reverseXSpeed();
         }
         if (ball.intersects(board.getBody())) {
-            ball.setY(board.getY()-2*ball.getRadius2());
+            ball.setY(board.getY() - 2 * ball.getRadius2());
             ball.reverseYSpeed();
+
         } else if (ball.intersects(board.getLeftEdge())) {
             Speed speed = collideChecker.getSpeedAfterCollision(ball, board.getLeftEdge());
             ball.setxSpeed(speed.getxSpeed());
@@ -177,10 +178,12 @@ public class PlayingField extends BasicGameState {
     }
     public Direction checkBrickCollision(Brick brick) {
         if (ball.intersects(brick.getSouthLine()) || ball.intersects(brick.getNorthLine())) {
-            brick.decrementLife();
+            //Decrease the life of the brick and give the player a point.
+            brick.decrementLife(); Points.getInstance().incrementPoints();
             return Direction.VERTICAL;
         } else if (ball.intersects(brick.getEastLine()) || ball.intersects(brick.getWestLine())) {
-            brick.decrementLife();
+            //Decrease the life of the brick and give the player a point.
+            brick.decrementLife(); Points.getInstance().incrementPoints();
             return Direction.HORIZONTAL;
         }
         return null;

@@ -28,8 +28,8 @@ public class Brick {
         this.xPosition = xPosition; this.yPosition = yPosition; this.lives = lives;
 
         //draws lines around the brick
-        northLine = new Line(xPosition,yPosition,xPosition+width,yPosition);
-        southLine = new Line(xPosition,yPosition+height,xPosition+width,yPosition+height);
+        northLine = new Line(xPosition+1,yPosition,xPosition+width-1,yPosition);
+        southLine = new Line(xPosition+1,yPosition+height,xPosition+width-1,yPosition+height);
         westLine = new Line(xPosition,yPosition,xPosition,yPosition+height);
         eastLine = new Line(xPosition+width,yPosition,xPosition+width,yPosition+height);
     }
