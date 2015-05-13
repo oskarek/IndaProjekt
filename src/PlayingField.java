@@ -24,7 +24,7 @@ public class PlayingField extends BasicGameState {
     ArrayList<Brick> bricks;
 
 
-    private enum Direction {
+    public enum Direction {
         NORTH, SOUTH, WEST, EAST;
     }
 
@@ -55,7 +55,7 @@ public class PlayingField extends BasicGameState {
 
         for(int i=0;i<brickXPositions.size();i++){
             int x = brickXPositions.get(i); int y = brickYPositions.get(i); int life = brickLevels.get(i);
-            bricks.add(new Brick(x,y,life,new Rectangle(x,y,50,40)));
+            bricks.add(new Brick(x,y,life));
         }
     }
 
@@ -74,6 +74,16 @@ public class PlayingField extends BasicGameState {
         float newxPos = (ball.getX()+ball.getxSpeed());
         float newyPos = (ball.getY()+ball.getySpeed());
         ball.setLocation(newxPos, newyPos);
+
+        for(Brick brick : bricks){
+            Direction d = brick.checkCollision(ball);
+            if(d != null){
+                switch(d){
+                    case NORTH:
+                        ball.reverseYSpeed();
+                }
+            }
+        }
 
         if (ball.getMaxY() >= contHeight) {
             ball.setY(contHeight - 2*ball.getRadius());

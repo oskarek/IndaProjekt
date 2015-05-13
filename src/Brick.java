@@ -1,6 +1,7 @@
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.awt.*;
@@ -18,17 +19,32 @@ public class Brick {
     private int lives;
     private Image brickImage;
     private Rectangle hitbox;
+    private Line northLine,southLine, westLine, eastLine;
 
-    public Brick(int x,int y,int lives, Rectangle rectangle) throws SlickException{
+    public Brick(int x,int y,int lives) throws SlickException{
         brickImage = new Image("res/UIButtons/brick1.png");
         width = brickImage.getWidth();
         height = brickImage.getHeight();
         xPosition = x; y = yPosition; this.lives = lives;
-        hitbox = rectangle;
+        hitbox = new Rectangle(xPosition,yPosition,width,height);
+        northLine = new Line(xPosition,yPosition,xPosition+width,yPosition);
+        southLine = new Line(xPosition,yPosition+height,xPosition+width,yPosition+height);
+        westLine = new Line(xPosition,yPosition,xPosition,yPosition+height);
+        eastLine = new Line(xPosition+width,yPosition,xPosition+width,yPosition+height);
     }
 
     public void draw(Graphics g){
         g.drawImage(brickImage,xPosition,yPosition);
+        g.draw(northLine);
+    }
+
+    public PlayingField.Direction checkCollision(Ball ball){
+        if(ball.intersects(southLine)){
+            return PlayingField.Direction.NORTH;
+        }
+        return null;
+
+
     }
 
     public int getY() {
