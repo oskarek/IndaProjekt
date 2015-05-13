@@ -25,7 +25,7 @@ public class Brick {
         brickImage = new Image("res/UIButtons/brick1.png");
         width = brickImage.getWidth();
         height = brickImage.getHeight();
-        xPosition = x; y = yPosition; this.lives = lives;
+        xPosition = x; yPosition = y; this.lives = lives;
         hitbox = new Rectangle(xPosition,yPosition,width,height);
         northLine = new Line(xPosition,yPosition,xPosition+width,yPosition);
         southLine = new Line(xPosition,yPosition+height,xPosition+width,yPosition+height);
@@ -34,14 +34,24 @@ public class Brick {
     }
 
     public void draw(Graphics g){
-        g.drawImage(brickImage,xPosition,yPosition);
-        g.draw(northLine);
+        //g.drawImage(brickImage,xPosition,yPosition);
+        if(lives >= 0) {
+            g.draw(northLine);
+            g.draw(southLine);
+            g.draw(westLine);
+            g.draw(eastLine);
+        }
     }
 
     public PlayingField.Direction checkCollision(Ball ball){
-        if(ball.intersects(southLine)){
-            return PlayingField.Direction.NORTH;
+        if(ball.intersects(southLine) || ball.intersects(northLine)){
+            lives--;
+            return PlayingField.Direction.VERTICAL;
+        } else if(ball.intersects(westLine) || ball.intersects(eastLine)){
+            lives--;
+            return PlayingField.Direction.HORIZONTAL;
         }
+
         return null;
 
 

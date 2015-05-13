@@ -11,13 +11,17 @@ public class Ball extends Circle {
     private float ySpeed;
     private Image ballImage;
 
-    public Ball(float centerPointX, float centerPointY, float radius) throws SlickException {
+    public Ball(float centerPointX, float centerPointY, float radius) /*throws SlickException*/ {
         super(centerPointX,centerPointY,radius);
-        ballImage = new Image("res/UIButtons/ball.png");
+        //ballImage = new Image("res/UIButtons/ball.png");
 
         //initiating values
         xSpeed = 2;
         ySpeed = -1;
+    }
+
+    public float getSpeed() {
+        return (float) Math.sqrt(Math.pow(xSpeed,2)+Math.pow(ySpeed,2));
     }
 
     public float getxSpeed() {
