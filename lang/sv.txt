@@ -1,0 +1,5 @@
+start_button : STARTA SPELET
+highscores_button : TOPPLISTA
+powerups_button : POWER-UPS
+quit_button : AVSLUTA
+back_button : TILLBAKA

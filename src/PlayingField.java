@@ -38,7 +38,6 @@ public class PlayingField extends BasicGameState {
         // dimensions of the container
         contHeight = container.getHeight();
         contWidth = container.getWidth();
-
         board = new Board(0,contHeight-30,50,10,4);
         ball = new Ball(80,80,10);
         bricks = new ArrayList<>();
@@ -59,6 +58,13 @@ public class PlayingField extends BasicGameState {
         }
     }
 
+    @Override
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        drawBoard(g);
+        drawBall(g);
+        drawBricks(g);
+    }
+
     public void drawBricks(Graphics g) throws SlickException {
         for (Brick brick : bricks) {
             brick.draw(g);
@@ -69,10 +75,33 @@ public class PlayingField extends BasicGameState {
         g.fill(ball);
     }
 
-    private void updateBallPos()throws SlickException {
+    public void drawBoard(Graphics g) throws SlickException {
+        g.fill(board);
+        System.out.println(ball.getySpeed());
+    }
+
+    @Override
+    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+        updateBallPos(delta);
+        Input input = container.getInput();
+        if (input.isKeyDown(Input.KEY_LEFT)) {
+            updateBoardPos(DIRECTION_LEFT);
+        }
+        if (input.isKeyDown(Input.KEY_RIGHT)) {
+            updateBoardPos(DIRECTION_RIGHT);
+        }
+        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+            game.enterState(0, new FadeOutTransition(), new FadeInTransition());
+        }
+        if (input.isKeyPressed(Input.KEY_SPACE)) {
+            ball.reverseYSpeed();
+        }
+    }
+
+    private void updateBallPos(int delta) throws SlickException {
         int leftwallPos = 0; int ceilingPos = 0;
-        float newxPos = (ball.getX()+ball.getxSpeed());
-        float newyPos = (ball.getY()+ball.getySpeed());
+        float newxPos = (ball.getX()+ball.getxSpeed()*0.2f*delta);
+        float newyPos = (ball.getY()+ball.getySpeed()*0.2f*delta);
         ball.setLocation(newxPos, newyPos);
 
         for(Brick brick : bricks){
@@ -87,6 +116,7 @@ public class PlayingField extends BasicGameState {
 
         if (ball.getMaxY() >= contHeight) {
             ball.setY(contHeight - 2*ball.getRadius());
+            ball.setLocation(newxPos,contHeight - 2*ball.getRadius());
             ball.reverseYSpeed();
         }
         if (ball.getY() <= ceilingPos) {
@@ -101,13 +131,10 @@ public class PlayingField extends BasicGameState {
             ball.setX(leftwallPos);
             ball.reverseXSpeed();
         }
-        if (ball.intersects(board)) {
+        if (board.intersects(ball) && ball.getySpeed()>0) {
+            ball.setY(board.getY()-2*ball.getRadius2());
             ball.reverseYSpeed();
         }
-    }
-
-    public void drawBoard(Graphics g) throws SlickException {
-        g.fill(board);
     }
 
     private void updateBoardPos(int direction) throws SlickException {
@@ -132,27 +159,5 @@ public class PlayingField extends BasicGameState {
                 board.setX(xPos);
             }
         }
-    }
-
-    @Override
-    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        drawBoard(g);
-        drawBall(g);
-        drawBricks(g);
-    }
-
-    @Override
-    public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        Input input = container.getInput();
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-            updateBoardPos(DIRECTION_LEFT);
-        }
-        if (input.isKeyDown(Input.KEY_RIGHT)) {
-            updateBoardPos(DIRECTION_RIGHT);
-        }
-        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            game.enterState(0, new FadeOutTransition(), new FadeInTransition());
-        }
-        updateBallPos();
     }
 }

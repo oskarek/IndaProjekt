@@ -26,6 +26,8 @@ public class MainGame extends StateBasedGame {
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new MainGame("Brick Breaker"));
 
+        app.setVSync(true);
+        app.setTargetFrameRate(60);
         app.setDisplayMode(1000, 600, false);
 
         app.start();

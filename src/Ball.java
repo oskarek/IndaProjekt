@@ -16,7 +16,7 @@ public class Ball extends Circle {
         ballImage = new Image("res/UIButtons/ball.png");
 
         //initiating values
-        xSpeed = -1;
+        xSpeed = 2;
         ySpeed = -1;
     }
 
