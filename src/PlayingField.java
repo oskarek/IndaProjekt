@@ -3,8 +3,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * The main playing field for the game.
@@ -17,7 +17,7 @@ public class PlayingField extends BasicGameState {
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
-
+    private Iterator<Brick> it;
 
     public enum Direction {
         RIGHT, LEFT, VERTICAL, HORIZONTAL;
@@ -93,6 +93,10 @@ public class PlayingField extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         // update the ball position
         updateBallPos(delta);
+
+        //update all the bricks
+        updateBricks();
+
         Input input = container.getInput();
         // move the board to the left if the left key is pressed
         if (input.isKeyDown(Input.KEY_LEFT)) {
@@ -106,6 +110,10 @@ public class PlayingField extends BasicGameState {
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
         }
+        //check if the game has been beaten
+        if(bricks.size() <= 0){
+            game.enterState(4,new FadeOutTransition(), new FadeInTransition());
+        }
     }
 
     private void updateBallPos(int delta) throws SlickException {
@@ -117,7 +125,7 @@ public class PlayingField extends BasicGameState {
         ball.setLocation(newxPos, newyPos);
 
         for(Brick brick : bricks){
-            Direction d = brick.checkCollision(ball);
+            Direction d = checkBrickCollision(brick);
             if(d != null){
                 switch(d){
                     case VERTICAL:
@@ -159,13 +167,32 @@ public class PlayingField extends BasicGameState {
         }
     }
 
+    public void updateBricks(){
+        it = bricks.iterator();
+        while(it.hasNext()){
+            if(it.next().getLives() <= 0){
+                it.remove();
+            }
+        }
+    }
+    public Direction checkBrickCollision(Brick brick) {
+        if (ball.intersects(brick.getSouthLine()) || ball.intersects(brick.getNorthLine())) {
+            brick.decrementLife();
+            return Direction.VERTICAL;
+        } else if (ball.intersects(brick.getEastLine()) || ball.intersects(brick.getWestLine())) {
+            brick.decrementLife();
+            return Direction.HORIZONTAL;
+        }
+        return null;
+    }
+
     private void updateBoardPos(Direction d) throws SlickException {
         float currentxPos = board.getX();
         float boardLength = board.getLength();
         int speed = board.getSpeed();
         if(d == Direction.LEFT){
             if(currentxPos > 0) {
-                float xPos = currentxPos - board.getSpeed();
+                float xPos = currentxPos - speed;
                 board.setX(xPos);
             }
         }
@@ -175,7 +202,7 @@ public class PlayingField extends BasicGameState {
                 if(currentxPos+5 >= contWidth){
                     xPos = contWidth-boardLength;
                 } else {
-                    xPos = currentxPos + board.getSpeed();
+                    xPos = currentxPos + speed;
 
                 }
                 board.setX(xPos);

@@ -32,6 +32,8 @@ public class LangFileReader {
                 break;
             case BACK_BUTTON: stringToLookFor = "back_button";
                 break;
+            case INPUT_BUTTON: stringToLookFor = "input_button";
+                break;
             default: throw new IllegalArgumentException("The area variable passed to getString is not allowed.");
         }
         try (BufferedReader file = new BufferedReader(new FileReader(LANGPATH+fileName))) {

@@ -21,12 +21,13 @@ public class Brick {
     private Rectangle hitbox;
     private Line northLine,southLine, westLine, eastLine;
 
-    public Brick(int x,int y,int lives) throws SlickException{
+    public Brick(int xPosition,int yPosition,int lives) throws SlickException{
         brickImage = new Image("res/UIButtons/brick1.png");
         width = brickImage.getWidth();
         height = brickImage.getHeight();
-        xPosition = x; yPosition = y; this.lives = lives;
-        hitbox = new Rectangle(xPosition,yPosition,width,height);
+        this.xPosition = xPosition; this.yPosition = yPosition; this.lives = lives;
+
+        //draws lines around the brick
         northLine = new Line(xPosition,yPosition,xPosition+width,yPosition);
         southLine = new Line(xPosition,yPosition+height,xPosition+width,yPosition+height);
         westLine = new Line(xPosition,yPosition,xPosition,yPosition+height);
@@ -34,28 +35,11 @@ public class Brick {
     }
 
     public void draw(Graphics g){
-        //g.drawImage(brickImage,xPosition,yPosition);
-        if(lives >= 0) {
-            g.draw(northLine);
-            g.draw(southLine);
-            g.draw(westLine);
-            g.draw(eastLine);
-        }
+        g.drawImage(brickImage,xPosition,yPosition);
+        g.draw(northLine); g.draw(southLine); g.draw(westLine); g.draw(eastLine);
     }
 
-    public PlayingField.Direction checkCollision(Ball ball){
-        if(ball.intersects(southLine) || ball.intersects(northLine)){
-            lives--;
-            return PlayingField.Direction.VERTICAL;
-        } else if(ball.intersects(westLine) || ball.intersects(eastLine)){
-            lives--;
-            return PlayingField.Direction.HORIZONTAL;
-        }
 
-        return null;
-
-
-    }
 
     public int getY() {
         return yPosition;
@@ -72,12 +56,17 @@ public class Brick {
     public void setxPosition(int xPosition) {
         this.xPosition = xPosition;
     }
-
+    public Line getNorthLine(){ return northLine; }
+    public Line getSouthLine(){ return southLine; }
+    public Line getWestLine(){ return westLine; }
+    public Line getEastLine(){ return eastLine; }
     public Image getBrickImage(){
         return brickImage;
     }
     public int getWidth(){return width;}
     public int getHeight(){return height;}
+    public int getLives(){ return lives;}
+    public void decrementLife(){lives--;}
 
     public void setBrickImage(Image image){
         brickImage = image;

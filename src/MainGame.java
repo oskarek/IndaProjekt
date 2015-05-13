@@ -21,13 +21,14 @@ public class MainGame extends StateBasedGame {
         addState(new PlayingField());
         addState(new HighscoreScreen());
         addState(new PowerupsScreen());
+        addState(new WinningScreen());
     }
 
     public static void main(String[] args) throws SlickException {
         AppGameContainer app = new AppGameContainer(new MainGame("Brick Breaker"));
 
         app.setVSync(true);
-        app.setTargetFrameRate(60);
+        app.setTargetFrameRate(100);
         app.setDisplayMode(1000, 600, false);
 
         app.start();

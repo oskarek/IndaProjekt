@@ -3,3 +3,4 @@ highscores_button : HIGHSCORES
 powerups_button : POWER-UPS
 quit_button : QUIT
 back_button : BACK
+input_button : Write your name here

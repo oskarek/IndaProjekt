@@ -3,3 +3,4 @@ highscores_button : TOPPLISTA
 powerups_button : POWER-UPS
 quit_button : AVSLUTA
 back_button : TILLBAKA
+input_button : Skriv ditt namn här
