@@ -21,4 +21,7 @@ private int points;
     public void addPoints(int points){
         this.points+=points;
     }
+    public void decrementPoints(){
+        points--;
+    }
 }

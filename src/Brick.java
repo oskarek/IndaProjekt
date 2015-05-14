@@ -5,6 +5,8 @@ import org.newdawn.slick.geom.Line;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A brick in the game.
@@ -17,15 +19,18 @@ public class Brick implements PlayingFieldItem {
     private int xPosition;
     private int yPosition;
     private int lives;
-    private Image brickImage;
-    private Rectangle hitbox;
+    private HashMap<Integer, Image> brickImages = new HashMap<>();
     private Line northLine,southLine, westLine, eastLine;
 
     public Brick(int xPosition,int yPosition,int lives) throws SlickException{
-        brickImage = new Image("res/UIButtons/brick1.png");
-        width = brickImage.getWidth();
-        height = brickImage.getHeight();
         this.xPosition = xPosition; this.yPosition = yPosition; this.lives = lives;
+        brickImages.put(4,new Image("res/UIButtons/brick1.png"));
+        brickImages.put(3,new Image("res/UIButtons/brick_green.png"));
+        brickImages.put(2,new Image("res/UIButtons/brick_yellow.png"));
+        brickImages.put(1,new Image("res/UIButtons/brick_red.png"));
+        brickImages.put(0,new Image("res/UIButtons/brick_red.png"));
+        width = brickImages.get(getLives()).getWidth();
+        height = brickImages.get(getLives()).getHeight();
 
         //draws lines around the brick
         northLine = new Line(xPosition+1,yPosition,xPosition+width-1,yPosition);
@@ -35,6 +40,7 @@ public class Brick implements PlayingFieldItem {
     }
 
     public void draw(Graphics g){
+        Image brickImage = brickImages.get(getLives());
         g.drawImage(brickImage,xPosition,yPosition);
         g.draw(northLine); g.draw(southLine); g.draw(westLine); g.draw(eastLine);
     }
@@ -61,15 +67,12 @@ public class Brick implements PlayingFieldItem {
     public Line getWestLine(){ return westLine; }
     public Line getEastLine(){ return eastLine; }
     public Image getBrickImage(){
-        return brickImage;
+        return brickImages.get(getLives());
     }
     public int getWidth(){return width;}
     public int getHeight(){return height;}
     public int getLives(){ return lives;}
     public void decrementLife(){lives--;}
 
-    public void setBrickImage(Image image){
-        brickImage = image;
-    }
 }
 

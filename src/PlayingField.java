@@ -5,6 +5,8 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * The main playing field for the game.
@@ -19,6 +21,7 @@ public class PlayingField extends BasicGameState {
     private Ball ball;
     private ArrayList<Brick> bricks;
     private Iterator<Brick> it;
+    private Timer timer;
 
     @Override
     public int getID() {
@@ -32,7 +35,7 @@ public class PlayingField extends BasicGameState {
         contWidth = container.getWidth();
         collideChecker = new CollideChecker(container);
         items = new ArrayList<>();
-        board = new Board(70,contHeight-130,80,15);
+        board = new Board(70,contHeight-30,80,15);
         float ballRadius = 10;
         float ballXPos = board.getX()+board.getLength()/2;
         float ballYPos = board.getY()-ballRadius;
@@ -40,8 +43,20 @@ public class PlayingField extends BasicGameState {
         bricks = new ArrayList<>();
         items.add(ball);
         items.add(board);
-        items.addAll(bricks);
         initBricks();
+        items.addAll(bricks);
+        Points.getInstance().addPoints(500);
+
+        timer = new Timer();
+        TimerTask timeTask = new TimerTask(){
+
+            @Override
+            public void run() {
+                Points.getInstance().decrementPoints();
+            }
+        };
+        timer.scheduleAtFixedRate(timeTask, 1000, 500);
+
     }
 
     public void initBricks() throws SlickException {
@@ -62,6 +77,7 @@ public class PlayingField extends BasicGameState {
         for (PlayingFieldItem item : items) {
             item.draw(g);
         }
+        g.drawString("Points : " + Points.getInstance().getPoints(),container.getWidth()-120,0);
     }
 
     @Override
@@ -102,11 +118,14 @@ public class PlayingField extends BasicGameState {
     public void updateBricks(){
         it = bricks.iterator();
         while(it.hasNext()){
-            if(it.next().getLives() <= 0){
+            if(it.next().getLives() <= 0) {
+                items.removeAll(bricks);
                 it.remove();
+                items.addAll(bricks);
+            }
             }
         }
-    }
+
 
     private void updateBoardPos(Direction d) throws SlickException {
         float currentxPos = board.getX();

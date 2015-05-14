@@ -9,8 +9,6 @@ import org.newdawn.slick.geom.Circle;
 public class Ball extends Circle implements PlayingFieldItem {
     private Circle baseShape;
     private float speed;
-    private float xSpeed;
-    private float ySpeed;
     private float angle;
     private Image ballImage;
 
@@ -20,9 +18,7 @@ public class Ball extends Circle implements PlayingFieldItem {
 
         //initiating values
         speed = (float)(Math.sqrt(Math.pow(4,2)+Math.pow(4,2)));
-        angle = (float) ((Math.PI));
-        xSpeed = 4;
-        ySpeed = 2;
+        angle = (float) ((Math.PI/4));
     }
 
     /**
@@ -53,7 +49,6 @@ public class Ball extends Circle implements PlayingFieldItem {
      * Reverse the horizontal component of the speed.
      */
     public void reverseHorizontalSpeed() {
-        xSpeed *= -1;
         if (angle <= Math.PI) angle = (float) (Math.PI-angle);
         else angle = (float) (3*Math.PI-angle);
     }
@@ -62,7 +57,6 @@ public class Ball extends Circle implements PlayingFieldItem {
      * Reverse the vertical component of the speed.
      */
     public void reverseVerticalSpeed() {
-        ySpeed *= -1;
         angle = (float) (2*Math.PI-angle);
     }
 
