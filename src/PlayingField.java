@@ -14,14 +14,11 @@ import java.util.Iterator;
 public class PlayingField extends BasicGameState {
     private int contWidth, contHeight;
     private CollideChecker collideChecker;
+    private ArrayList<PlayingFieldItem> items;
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
     private Iterator<Brick> it;
-
-    public enum Direction {
-        RIGHT, LEFT, VERTICAL, HORIZONTAL;
-    }
 
     @Override
     public int getID() {
@@ -33,13 +30,17 @@ public class PlayingField extends BasicGameState {
         // dimensions of the container
         contHeight = container.getHeight();
         contWidth = container.getWidth();
-        collideChecker = new CollideChecker();
-        board = new Board(0,contHeight-30,80,15);
+        collideChecker = new CollideChecker(container);
+        items = new ArrayList<>();
+        board = new Board(70,contHeight-130,80,15);
         float ballRadius = 10;
         float ballXPos = board.getX()+board.getLength()/2;
-        float ballYPos = board.getY()-ballRadius/2;
+        float ballYPos = board.getY()-ballRadius;
         ball = new Ball(ballXPos,ballYPos,ballRadius);
         bricks = new ArrayList<>();
+        items.add(ball);
+        items.add(board);
+        items.addAll(bricks);
         initBricks();
     }
 
@@ -58,35 +59,9 @@ public class PlayingField extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        drawBoard(g);
-        drawBall(g);
-        drawBricks(g);
-    }
-
-    /**
-     * Draw the bricks on the screen.
-     * @param g The Graphics object that is responsible for the drawing.
-     */
-    public void drawBricks(Graphics g) {
-        for (Brick brick : bricks) {
-            brick.draw(g);
+        for (PlayingFieldItem item : items) {
+            item.draw(g);
         }
-    }
-
-    /**
-     * Draw the ball on the screen.
-     * @param g The Graphics object that is responsible for the drawing.
-     */
-    public void drawBall(Graphics g) {
-        g.fill(ball);
-    }
-
-    /**
-     * Draw the board on the screen.
-     * @param g The Graphics object that is responsible for the drawing.
-     */
-    public void drawBoard(Graphics g) {
-        board.draw(g);
     }
 
     @Override
@@ -111,61 +86,17 @@ public class PlayingField extends BasicGameState {
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
         }
         //check if the game has been beaten
-        if(bricks.size() <= 0){
+        /*if(bricks.size() <= 0){
             game.enterState(4,new FadeOutTransition(), new FadeInTransition());
-        }
+        }*/
     }
 
     private void updateBallPos(int delta) throws SlickException {
-        int leftwallPos = 0;
-        int rightWallPos = contWidth;
-        int ceilingPos = 0;
-        float newxPos = (ball.getX()+ball.getxSpeed()*0.05f*delta);
-        float newyPos = (ball.getY()+ball.getySpeed()*0.05f*delta);
-        ball.setLocation(newxPos, newyPos);
+        float dist = ball.getSpeed()*0.05f*delta;
+        ball.move(dist);
 
-        for(Brick brick : bricks){
-            Direction d = checkBrickCollision(brick);
-            if(d != null){
-                switch(d){
-                    case VERTICAL:
-                        ball.reverseYSpeed();
-                        break;
-                    case HORIZONTAL:
-                        ball.reverseXSpeed();
-                        break;
-                }
-            }
-        }
-
-        if (ball.getMaxY() >= contHeight) {
-            ball.setY(contHeight - 2*ball.getRadius());
-            ball.setLocation(newxPos,contHeight - 2*ball.getRadius());
-            ball.reverseYSpeed();
-        } else if (ball.getY() <= ceilingPos) {
-            ball.setY(ceilingPos);
-            ball.reverseYSpeed();
-        }
-        if (ball.getMaxX() >= rightWallPos) {
-            ball.setX(contWidth - 2 * ball.getRadius());
-            ball.reverseXSpeed();
-        } else if (ball.getX() <= leftwallPos) {
-            ball.setX(leftwallPos);
-            ball.reverseXSpeed();
-        }
-        if (ball.intersects(board.getBody())) {
-            ball.setY(board.getY() - 2 * ball.getRadius2());
-            ball.reverseYSpeed();
-
-        } else if (ball.intersects(board.getLeftEdge())) {
-            Speed speed = collideChecker.getSpeedAfterCollision(ball, board.getLeftEdge());
-            ball.setxSpeed(speed.getxSpeed());
-            ball.setySpeed(speed.getySpeed());
-        } else if (ball.intersects(board.getRightEdge())) {
-            Speed speed = collideChecker.getSpeedAfterCollision(ball, board.getRightEdge());
-            ball.setxSpeed(speed.getxSpeed());
-            ball.setySpeed(speed.getySpeed());
-        }
+        // check if the ball has collided with any object.
+        collideChecker.checkBallCollisions(ball,board, bricks);
     }
 
     public void updateBricks(){
@@ -175,18 +106,6 @@ public class PlayingField extends BasicGameState {
                 it.remove();
             }
         }
-    }
-    public Direction checkBrickCollision(Brick brick) {
-        if (ball.intersects(brick.getSouthLine()) || ball.intersects(brick.getNorthLine())) {
-            //Decrease the life of the brick and give the player a point.
-            brick.decrementLife(); Points.getInstance().incrementPoints();
-            return Direction.VERTICAL;
-        } else if (ball.intersects(brick.getEastLine()) || ball.intersects(brick.getWestLine())) {
-            //Decrease the life of the brick and give the player a point.
-            brick.decrementLife(); Points.getInstance().incrementPoints();
-            return Direction.HORIZONTAL;
-        }
-        return null;
     }
 
     private void updateBoardPos(Direction d) throws SlickException {

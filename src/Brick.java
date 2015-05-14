@@ -11,7 +11,7 @@ import java.awt.*;
  *
  * Created by oskarek on 2015-05-07.
  */
-public class Brick {
+public class Brick implements PlayingFieldItem {
     private int width;
     private int height;
     private int xPosition;

@@ -1,20 +1,12 @@
 /**
- * A simple clas to bind together an 'xSpeed' and a 'ySpeed' value.
+ * A simple clas to bind together an 'X' and a 'Y'-speed value.
  * Created by oskarek on 2015-05-13.
  */
 public class Speed {
-    private float xSpeed, ySpeed;
+    public final float X, Y;
 
-    public Speed(float xSpeed, float ySpeed) {
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-    }
-
-    public float getxSpeed() {
-        return xSpeed;
-    }
-
-    public float getySpeed() {
-        return ySpeed;
+    public Speed(float X, float Y) {
+        this.X = X;
+        this.Y = Y;
     }
 }

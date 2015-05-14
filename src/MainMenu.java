@@ -45,8 +45,6 @@ public class MainMenu extends BasicGameState {
         contWidth = container.getWidth();
 
         createButtons(container);
-
-        
     }
 
     /**

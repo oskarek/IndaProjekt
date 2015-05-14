@@ -7,7 +7,7 @@ import org.newdawn.slick.geom.Rectangle;
 /**
  * Created by oskarek on 2015-05-13.
  */
-public class Board {
+public class Board implements PlayingFieldItem {
     private float xPos, yPos, length, height;
     private Rectangle body;
     private Circle leftEdge, rightEdge;
