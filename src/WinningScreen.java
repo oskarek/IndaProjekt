@@ -16,7 +16,6 @@ import java.awt.Font;
 public class WinningScreen extends BasicGameState {
     private Button inputButton;
     private LangFileReader langReader;
-    private Langs lang;
     private TrueTypeFont font;
     private TextField nameInput;
     private Cursor textCursor;
@@ -38,7 +37,10 @@ public class WinningScreen extends BasicGameState {
         font = new TrueTypeFont(awtFont, true);
         // textCursor = new Cursor(Cursor.TEXT_CURSOR); defaultCursor = Cursor.getDefaultCursor();
 
-        tx = new TextField(container, font, container.getWidth()/2 - 175, container.getHeight()/2 - 30, 350, 30);
+        int txWidth = 350;
+        int txHeight = 30;
+        tx = new TextField(container, font, container.getWidth()/2-txWidth/2,
+                            container.getHeight()/2-txHeight, txWidth, txHeight);
         tx.setBackgroundColor(Color.white);
         tx.setMaxLength(20);
         tx.setTextColor(Color.black);

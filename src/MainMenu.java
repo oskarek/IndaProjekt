@@ -7,7 +7,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -21,8 +24,6 @@ public class MainMenu extends BasicGameState {
     private static final int POWERUPS_BUTTON = 2;
     private static final int QUIT_BUTTON = 3;
 
-    private TrueTypeFont font;
-    private Langs lang;
     private LangFileReader langReader;
     private ArrayList<Button> buttons;
     private int contWidth, contHeight;
@@ -34,11 +35,6 @@ public class MainMenu extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-        // load a default java font
-        Font awtFont = new java.awt.Font("Times New Roman", Font.BOLD, 24);
-        font = new TrueTypeFont(awtFont, true);
-
-        lang = Langs.SWEDISH;
         langReader = new LangFileReader();
         // dimensions of the container
         contHeight = container.getHeight();
@@ -77,19 +73,7 @@ public class MainMenu extends BasicGameState {
             int height = buttonImage.getHeight();
 
             int xCentered = contWidth/2-width/2;
-            String label;
-            switch (i) {
-                case 0: label = langReader.getString(TranslationAreas.START_BUTTON,lang);
-                    break;
-                case 1: label = langReader.getString(TranslationAreas.HIGHSCORES_BUTTON,lang);
-                    break;
-                case 2: label = langReader.getString(TranslationAreas.POWERUPS_BUTTON,lang);
-                    break;
-                case 3: label = langReader.getString(TranslationAreas.QUIT_BUTTON,lang);
-                    break;
-                default: label = langReader.getString(TranslationAreas.START_BUTTON,lang);
-            }
-            Button button = new Button(container,buttonImage,xCentered,lastYBottomPos+30,label,font);
+            Button button = new Button(container,buttonImage,xCentered,lastYBottomPos+30);
             buttons.add(button);
 
             // darken the buttons when they're hovered/pressed
@@ -103,11 +87,47 @@ public class MainMenu extends BasicGameState {
         }
     }
 
+    /**
+     * Add labels to the buttons, based on the current selected language.
+     */
+    public void addButtonLabels() {
+        String currLangFileName = "lang/currentlang.txt";
+        String langFile = null;
+        try (BufferedReader file = new BufferedReader(new FileReader(currLangFileName))) {
+            langFile = file.readLine();
+        } catch (FileNotFoundException e) {
+            System.err.println("Couldn't find the currentlang file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (langFile == null) {
+            throw new RuntimeException("The currentlang file is empty.");
+        }
+
+        for (int i = 0; i < buttons.size(); i++) {
+            String label;
+            switch (i) {
+                case 0: label = langReader.getString(TranslationAreas.START_BUTTON,langFile);
+                    break;
+                case 1: label = langReader.getString(TranslationAreas.HIGHSCORES_BUTTON,langFile);
+                    break;
+                case 2: label = langReader.getString(TranslationAreas.POWERUPS_BUTTON,langFile);
+                    break;
+                case 3: label = langReader.getString(TranslationAreas.QUIT_BUTTON,langFile);
+                    break;
+                default: label = langReader.getString(TranslationAreas.START_BUTTON,langFile);
+            }
+
+            buttons.get(i).setLabel(label,24);
+        }
+
+    }
+
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         // render all the buttons
-        for (Button buttonArea : buttons) {
-            buttonArea.render(container,g);
+        for (Button button : buttons) {
+            button.render(container, g);
         }
     }
 

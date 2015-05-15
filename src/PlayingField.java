@@ -33,6 +33,7 @@ public class PlayingField extends BasicGameState {
         // dimensions of the container
         contHeight = container.getHeight();
         contWidth = container.getWidth();
+
         collideChecker = new CollideChecker(container);
         items = new ArrayList<>();
         board = new Board(70,contHeight-30,80,15);
@@ -91,11 +92,11 @@ public class PlayingField extends BasicGameState {
         Input input = container.getInput();
         // move the board to the left if the left key is pressed
         if (input.isKeyDown(Input.KEY_LEFT)) {
-            updateBoardPos(Direction.LEFT);
+            updateBoardPos(Direction.LEFT, delta);
         }
         // move the board to the right if the right key is pressed
         if (input.isKeyDown(Input.KEY_RIGHT)) {
-            updateBoardPos(Direction.RIGHT);
+            updateBoardPos(Direction.RIGHT, delta);
         }
         // go to the main menu if the escape key is pressed.
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
@@ -124,17 +125,21 @@ public class PlayingField extends BasicGameState {
                 it.remove();
                 items.addAll(bricks);
             }
-            }
         }
+    }
 
-
-    private void updateBoardPos(Direction d) throws SlickException {
+    /**
+     * Update the position of the board.
+     * @param d The direction in which the board should move (left or right).
+     * @param delta The delta value from the update method.
+     */
+    private void updateBoardPos(Direction d, int delta) {
         float currentxPos = board.getX();
         float boardLength = board.getLength();
         int speed = board.getSpeed();
         if(d == Direction.LEFT){
             if(currentxPos > 0) {
-                float xPos = currentxPos - speed;
+                float xPos = currentxPos - speed*0.05f*delta;
                 board.setX(xPos);
             }
         }
@@ -144,7 +149,7 @@ public class PlayingField extends BasicGameState {
                 if(currentxPos+5 >= contWidth){
                     xPos = contWidth-boardLength;
                 } else {
-                    xPos = currentxPos + speed;
+                    xPos = currentxPos + speed*0.05f*delta;
 
                 }
                 board.setX(xPos);

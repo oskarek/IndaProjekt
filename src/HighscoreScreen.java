@@ -19,7 +19,6 @@ import java.util.ArrayList;
  */
 public class HighscoreScreen extends BasicGameState {
     private LangFileReader langReader;
-    private Langs lang;
     private Button backButton;
     private ArrayList<String> highscoreList;
     private TrueTypeFont font;
@@ -31,7 +30,6 @@ public class HighscoreScreen extends BasicGameState {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         langReader = new LangFileReader();
-        lang = Langs.SWEDISH;
         // load a default java font
         Font awtFont = new Font("Times New Roman", Font.BOLD, 18);
         font = new TrueTypeFont(awtFont, true);
@@ -60,8 +58,8 @@ public class HighscoreScreen extends BasicGameState {
         int height = backButtonImage.getHeight();
         int yPos = container.getHeight()-height-10;
         int xPos = container.getWidth()-width-10;
-        String label = langReader.getString(TranslationAreas.BACK_BUTTON,lang);
-        backButton = new Button(container,backButtonImage,xPos,yPos,label,font);
+        String label = langReader.getString(TranslationAreas.BACK_BUTTON,"sv.txt");
+        backButton = new Button(container,backButtonImage,xPos,yPos,label,18);
 
         // darken the back button when it's hovered/pressed
         backButton.setMouseOverColor(Color.lightGray);

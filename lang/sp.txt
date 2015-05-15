@@ -3,4 +3,4 @@ highscores_button : PUNTAJES ALTOS
 powerups_button : POWER-UPS
 quit_button : DEJAR
 back_button : ESPALDA
-input_button : Escribir su nombre aquí
+field : Escribir su nombre aquí

@@ -1,6 +1,8 @@
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.*;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.state.StateBasedGame;
+
+import java.awt.*;
 
 /**
  * Created by oskarek on 2015-05-10.
@@ -17,6 +19,7 @@ public class MainGame extends StateBasedGame {
 
     @Override
     public void initStatesList(GameContainer container) throws SlickException {
+        addState(new LanguageSelectionScreen());
         addState(new MainMenu());
         addState(new PlayingField());
         addState(new HighscoreScreen());
@@ -32,5 +35,9 @@ public class MainGame extends StateBasedGame {
         app.setDisplayMode(1000, 600, false);
 
         app.start();
+
+        java.awt.Font awtFont = new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 20);
+        Font font = new TrueTypeFont(awtFont, true);
+        app.setDefaultFont(font);
     }
 }

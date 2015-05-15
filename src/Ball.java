@@ -18,7 +18,7 @@ public class Ball extends Circle implements PlayingFieldItem {
 
         //initiating values
         speed = (float)(Math.sqrt(Math.pow(4,2)+Math.pow(4,2)));
-        angle = (float) ((Math.PI/4));
+        angle = (float) ((Math.PI)/4);
     }
 
     /**
