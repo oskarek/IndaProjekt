@@ -3,10 +3,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import java.util.*;
 
 /**
  * The main playing field for the game.
@@ -20,8 +18,9 @@ public class PlayingField extends BasicGameState {
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
-    private Iterator<Brick> it;
     private Timer timer;
+    private PowerUp powerUp;
+    private TimerTask powerupTask;
 
     @Override
     public int getID() {
@@ -30,6 +29,7 @@ public class PlayingField extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+
         // dimensions of the container
         contHeight = container.getHeight();
         contWidth = container.getWidth();
@@ -50,14 +50,28 @@ public class PlayingField extends BasicGameState {
 
         timer = new Timer();
         TimerTask timeTask = new TimerTask(){
-
-            @Override
             public void run() {
                 Points.getInstance().decrementPoints();
             }
         };
         timer.scheduleAtFixedRate(timeTask, 1000, 500);
 
+        //Spawn a Powerup at the given time interval
+        Random rand = new Random();
+        powerupTask = new TimerTask() {
+            public void run() {
+                int r = rand.nextInt(4);
+                int x = rand.nextInt((container.getWidth())); int y = 150;
+                try {
+                    powerUp = new PowerUp(x,y,r);
+                    items.add(powerUp);
+                } catch (SlickException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Timer timer2 = new Timer();
+        timer2.scheduleAtFixedRate(powerupTask,10000,15000);
     }
 
     public void initBricks() throws SlickException {
@@ -85,6 +99,8 @@ public class PlayingField extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         // update the ball position
         updateBallPos(delta);
+
+        updatePowerUpPos();
 
         //update all the bricks
         updateBricks();
@@ -118,12 +134,22 @@ public class PlayingField extends BasicGameState {
     }
 
     public void updateBricks(){
-        it = bricks.iterator();
+        Iterator<Brick> it = bricks.iterator();
         while(it.hasNext()){
             if(it.next().getLives() <= 0) {
                 items.removeAll(bricks);
                 it.remove();
                 items.addAll(bricks);
+            }
+        }
+    }
+    public void updatePowerUpPos(){
+        if(powerUp != null) {
+            powerUp.setY(powerUp.getY()+3);
+            powerUp.updateHitBox();
+            if (collideChecker.checkPowerUpCollision(powerUp, board)) {
+                powerUp.invokePowerup(ball, board);
+                items.remove(powerUp);
             }
         }
     }

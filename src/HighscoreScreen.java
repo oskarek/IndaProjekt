@@ -33,10 +33,9 @@ public class HighscoreScreen extends BasicGameState {
         // load a default java font
         Font awtFont = new Font("Times New Roman", Font.BOLD, 18);
         font = new TrueTypeFont(awtFont, true);
-
+        updateHighscoreList();
         createButtons(container);
-        HighscoreTool highscoreTool = new HighscoreTool();
-        highscoreList = highscoreTool.returnScore();
+
 
         // load font from a .ttf file
         try {
@@ -49,6 +48,10 @@ public class HighscoreScreen extends BasicGameState {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void updateHighscoreList(){
+        HighscoreTool highscoreTool = new HighscoreTool();
+        highscoreList = highscoreTool.returnScore();
     }
 
     public void createButtons(GameContainer container) throws SlickException {
@@ -86,6 +89,7 @@ public class HighscoreScreen extends BasicGameState {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
+        updateHighscoreList();
         if (backButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 || input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());

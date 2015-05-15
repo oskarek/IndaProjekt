@@ -50,7 +50,7 @@ public class WinningScreen extends BasicGameState {
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         tx.render(container, g);
         g.drawString("Grattis du har vunnit spelet, poäng: " + Points.getInstance().getPoints()
-                , container.getWidth()/2-175, container.getHeight()/2-90);
+                , container.getWidth() / 2 - 175, container.getHeight() / 2 - 90);
         g.drawString("Skriv ditt namn i rutan", container.getWidth()/2-175,container.getHeight()/2-60);
     }
 
@@ -71,7 +71,7 @@ public class WinningScreen extends BasicGameState {
             }
             tx.deactivate();
             HighscoreTool hl = new HighscoreTool();
-            hl.insertScore(Points.getInstance().getPoints(),name);
+            hl.insertScore(Points.getInstance().getPoints(), name);
             game.enterState(2, new FadeOutTransition(), new FadeInTransition());
         }
     }

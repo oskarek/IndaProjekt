@@ -73,6 +73,12 @@ public class CollideChecker {
             ball.setDirection(angle);
         }
     }
+    public boolean checkPowerUpCollision(PowerUp powerUp, Board board){
+        if(powerUp.getHitBox().intersects(board.getBody())){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Returns the new direction (measured as an angle between it and the x-axis)
