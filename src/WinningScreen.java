@@ -42,14 +42,14 @@ public class WinningScreen extends BasicGameState {
         tx.setBackgroundColor(Color.white);
         tx.setMaxLength(20);
         tx.setTextColor(Color.black);
-        tx.setText("Skriv in ditt namn här");  //Gör för alla språk!!
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         tx.render(container, g);
         g.drawString("Grattis du har vunnit spelet, poäng: " + Points.getInstance().getPoints()
-                , container.getWidth()/2-120, container.getHeight()/2-80);
+                , container.getWidth()/2-175, container.getHeight()/2-90);
+        g.drawString("Skriv ditt namn i rutan", container.getWidth()/2-175,container.getHeight()/2-60);
     }
 
     @Override

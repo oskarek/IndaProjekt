@@ -102,9 +102,10 @@ public class PlayingField extends BasicGameState {
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
         }
         //check if the game has been beaten
-        /*if(bricks.size() <= 0){
+        if(bricks.size() <= 0){
+            timer.cancel();
             game.enterState(4,new FadeOutTransition(), new FadeInTransition());
-        }*/
+        }
     }
 
     private void updateBallPos(int delta) throws SlickException {

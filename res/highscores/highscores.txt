@@ -3,8 +3,8 @@
 890 Stina
 800 Robert
 507 Peter
+496 Robert
+496 Robert
+496 Robert
 150 Knut
 119 Robert
-90 Pär
-88 Oskar
-40 Emma
