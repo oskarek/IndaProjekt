@@ -47,7 +47,22 @@ public class PlayingField extends BasicGameState {
         initBricks();
         items.addAll(bricks);
         Points.getInstance().addPoints(500);
+    }
 
+    public void initBricks() throws SlickException {
+        MapReader mapReader = new MapReader();
+        ArrayList<ArrayList<Integer>> mapOneInfo = mapReader.readMap(1);
+        ArrayList<Integer> brickXPositions = mapOneInfo.get(0);
+        ArrayList<Integer> brickYPositions = mapOneInfo.get(1);
+        ArrayList<Integer> brickLevels = mapOneInfo.get(2);
+
+        for(int i=0;i<brickXPositions.size();i++){
+            int x = brickXPositions.get(i); int y = brickYPositions.get(i); int life = brickLevels.get(i);
+            bricks.add(new Brick(x,y,life));
+        }
+    }
+
+    public void setTimer(GameContainer container){
         timer = new Timer();
         TimerTask timeTask = new TimerTask(){
             public void run() {
@@ -72,19 +87,6 @@ public class PlayingField extends BasicGameState {
         };
         Timer timer2 = new Timer();
         timer2.scheduleAtFixedRate(powerupTask,10000,15000);
-    }
-
-    public void initBricks() throws SlickException {
-        MapReader mapReader = new MapReader();
-        ArrayList<ArrayList<Integer>> mapOneInfo = mapReader.readMap(1);
-        ArrayList<Integer> brickXPositions = mapOneInfo.get(0);
-        ArrayList<Integer> brickYPositions = mapOneInfo.get(1);
-        ArrayList<Integer> brickLevels = mapOneInfo.get(2);
-
-        for(int i=0;i<brickXPositions.size();i++){
-            int x = brickXPositions.get(i); int y = brickYPositions.get(i); int life = brickLevels.get(i);
-            bricks.add(new Brick(x,y,life));
-        }
     }
 
     @Override

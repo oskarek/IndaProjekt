@@ -43,7 +43,7 @@ public class PowerUp implements PlayingFieldItem {
     }
     @Override
     public void draw(Graphics g) {
-        //g.drawImage(currentImage, xPosition, yPosition);
+        g.drawImage(currentImage, xPosition, yPosition);
         g.fill(hitBox);
     }
 
