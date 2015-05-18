@@ -32,10 +32,21 @@ public class CollideChecker {
         // check if the ball has hit any of the bricks
         for(Brick brick : bricks){
             boolean hitBrick = false;
-            if (ball.intersects(brick.getNorthLine()) || ball.intersects(brick.getSouthLine())) {
+            if (ball.intersects(brick.getNorthLine()) && Math.PI<=ball.getDirection()
+                                                && ball.getDirection()<=2*Math.PI) {
                 ball.reverseVerticalDirection();
                 hitBrick = true;
-            } else if (ball.intersects(brick.getWestLine()) || ball.intersects(brick.getEastLine())) {
+            } else if (ball.intersects(brick.getSouthLine()) && 0<=ball.getDirection()
+                                                && ball.getDirection()<=Math.PI) {
+                ball.reverseVerticalDirection();
+                hitBrick = true;
+            } else if (ball.intersects(brick.getWestLine()) && ((0<=ball.getDirection()
+                    && ball.getDirection()<=(Math.PI)/2) || ((3*Math.PI)/2<=ball.getDirection()
+                    && ball.getDirection()<=2*Math.PI))) {
+                ball.reverseHorizontalDirection();
+                hitBrick = true;
+            } else if (ball.intersects(brick.getEastLine()) && (Math.PI)/2<=ball.getDirection()
+                    && ball.getDirection()<=(3*Math.PI)/2) {
                 ball.reverseHorizontalDirection();
                 hitBrick = true;
             } else {
@@ -48,7 +59,7 @@ public class CollideChecker {
                 }
             }
             if (hitBrick) {
-                brick.decrementLife(); Points.getInstance().incrementPoints();
+                brick.decrementLife(); Points.getInstance().addPoints(10);
             }
         }
 

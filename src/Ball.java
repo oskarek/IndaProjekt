@@ -16,7 +16,7 @@ public class Ball extends Circle implements PlayingFieldItem {
         ballImage = new Image("res/UIButtons/ball.png");
 
         //initiating values
-        speed = (float)(Math.sqrt(Math.pow(4,2)+Math.pow(4,2)));
+        speed = 10;
         angle = (float) ((Math.PI)/4);
     }
 
@@ -34,6 +34,14 @@ public class Ball extends Circle implements PlayingFieldItem {
      */
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public void doubleSpeed(){
+        speed *= 2;
+    }
+
+    public void halfSpeed(){
+        speed /= 2;
     }
 
     /**

@@ -18,9 +18,10 @@ public class PlayingField extends BasicGameState {
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
-    private Timer timer;
+    private int timer;
+    private int timer2;
     private PowerUp powerUp;
-    private TimerTask powerupTask;
+    private boolean powerUpInvoked;
 
     @Override
     public int getID() {
@@ -69,36 +70,8 @@ public class PlayingField extends BasicGameState {
         }
     }
 
-    public void setTimer(GameContainer container){
-        timer = new Timer();
-        TimerTask timeTask = new TimerTask(){
-            public void run() {
-                Points.getInstance().decrementPoints();
-            }
-        };
-        timer.scheduleAtFixedRate(timeTask, 1000, 500);
-
-        //Spawn a Powerup at the given time interval
-        Random rand = new Random();
-        powerupTask = new TimerTask() {
-            public void run() {
-                int r = rand.nextInt(4);
-                int x = rand.nextInt((container.getWidth())); int y = 150;
-                try {
-                    powerUp = new PowerUp(x,y,r);
-                    items.add(powerUp);
-                } catch (SlickException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        //Timer timer2 = new Timer();
-        timer.scheduleAtFixedRate(powerupTask,10000,15000);
-    }
-
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-
         for (PlayingFieldItem item : items) {
             item.draw(g);
         }
@@ -130,8 +103,36 @@ public class PlayingField extends BasicGameState {
         }
         //check if the game has been beaten
         if(bricks.size() <= 0){
-            timer.cancel();
             game.enterState(4,new FadeOutTransition(), new FadeInTransition());
+        }
+
+        timer++;
+        if (timer % 50 == 0) {
+            Points.getInstance().decrementPoints();
+        }
+        if (timer % 800 == 0) {
+            Random rand = new Random();
+            int r = rand.nextInt(4);
+            int x = rand.nextInt(container.getWidth());
+            int y = -50;
+            switch(r){
+                case 0: powerUp = new FastBall(x, y, ball);
+                    break;
+                case 1: powerUp = new SlowBall(x,y,ball);
+                    break;
+                case 2: powerUp = new BigBoard(x,y,board);
+                    break;
+                case 3: powerUp = new SmallBoard(x,y,board);
+                    break;
+            }
+            items.add(powerUp);
+        }
+        if(powerUpInvoked){
+            timer2++;
+            if(timer2 % 400 == 0 ){
+                powerUp.reverse();
+                powerUpInvoked = false;
+            }
         }
     }
 
@@ -157,8 +158,9 @@ public class PlayingField extends BasicGameState {
         if(powerUp != null) {
             powerUp.setY(powerUp.getY()+3);
             powerUp.updateHitBox();
-            if (collideChecker.checkPowerUpCollision(powerUp, board)) {
-                powerUp.invokePowerup(ball, board);
+            if (collideChecker.checkPowerUpCollision(powerUp, board) && !powerUpInvoked) {
+                powerUp.invoke();
+                powerUpInvoked = true;
                 items.remove(powerUp);
             }
         }

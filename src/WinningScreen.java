@@ -72,7 +72,7 @@ public class WinningScreen extends BasicGameState {
             tx.deactivate();
             HighscoreTool hl = new HighscoreTool();
             hl.insertScore(Points.getInstance().getPoints(), name);
-            HighscoreScreen highscoreScreen = new HighscoreScreen();
+            HighscoreScreen highscoreScreen = (HighscoreScreen) game.getState(2);
             highscoreScreen.updateHighscoreList();
             game.enterState(2, new FadeOutTransition(), new FadeInTransition());
         }

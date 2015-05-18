@@ -12,7 +12,8 @@ public class Board implements PlayingFieldItem {
     private Rectangle body;
     private Circle leftEdge, rightEdge;
     private PowerUp currentPowerUp;
-    private Image boardImage;
+    private Image boardImage, boardImageDouble, boardImageHalf;
+    private Image currentBoardImage;
     private int speed;
     private int score;
 
@@ -22,14 +23,17 @@ public class Board implements PlayingFieldItem {
         leftEdge = new Circle(x+height/2,y+height/2,height/2);
         rightEdge = new Circle(x+length-height/2,y+height/2,height/2);
         boardImage = new Image("res/UIButtons/board.png");
-        speed = 5;
+        boardImageDouble = new Image("res/UIButtons/board_x2.png");
+        boardImageHalf = new Image("res/UIButtons/board_half.png");
+        currentBoardImage = boardImage;
+        speed = 8;
     }
 
     public void draw(Graphics g) {
         g.fill(body);
         g.fill(leftEdge);
         g.fill(rightEdge);
-        g.drawImage(boardImage,xPos,yPos);
+        g.drawImage(currentBoardImage,xPos,yPos);
     }
 
     public float getX() {
@@ -54,10 +58,29 @@ public class Board implements PlayingFieldItem {
         yPos = y;
     }
 
-    public void setLength(float length) {
-        body = new Rectangle(xPos+height/2,yPos,length-height,height);
-        leftEdge = new Circle(xPos+height/2,yPos+height/2,height/2);
-        rightEdge = new Circle(xPos+length-height/2,yPos+height/2,height/2);
+    public void setLength(float newLength) {
+        float xCenterPos = xPos+length/2;
+        length = newLength;
+        float newxPos = xCenterPos-length/2;
+        body = new Rectangle(newxPos+height/2,yPos,length-height,height);
+        leftEdge = new Circle(newxPos+height/2,yPos+height/2,height/2);
+        rightEdge = new Circle(newxPos-height/2,yPos+height/2,height/2);
+        setX(newxPos);
+    }
+
+    public void doubleLength() {
+        setLength(160);
+        currentBoardImage = boardImageDouble;
+    }
+
+    public void normalLength() {
+        setLength(80);
+        currentBoardImage = boardImage;
+    }
+
+    public void halfLength() {
+        setLength(40);
+        currentBoardImage = boardImageHalf;
     }
 
     public float getLength() {
