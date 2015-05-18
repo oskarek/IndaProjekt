@@ -137,7 +137,7 @@ public class MainMenu extends BasicGameState {
         // check if the start button has been pressed, and if it has:
         // switch to the playingField state
         if (buttons.get(START_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-            PlayingField playingField = new PlayingField();
+            PlayingField playingField = (PlayingField) game.getState(1);
             playingField.setTimer(container);
             game.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }

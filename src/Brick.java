@@ -1,48 +1,71 @@
-import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
-import org.newdawn.slick.geom.Rectangle;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
- * A brick in the game.
- *
- * Created by oskarek on 2015-05-07.
+ * Created by oskarek on 2015-05-16.
  */
-public class Brick implements PlayingFieldItem {
+public abstract class Brick implements PlayingFieldItem {
     private int width;
     private int height;
     private int xPosition;
     private int yPosition;
     private int lives;
     private HashMap<Integer, Image> brickImages = new HashMap<>();
-    private Line northLine,southLine, westLine, eastLine;
+    private Line northLine, southLine, westLine, eastLine;
+    private HashSet<Circle> corners;
 
-    public Brick(int xPosition,int yPosition,int lives) throws SlickException{
+    public Brick(int xPosition, int yPosition, int lives) throws SlickException {
         this.xPosition = xPosition; this.yPosition = yPosition; this.lives = lives;
-        brickImages.put(4,new Image("res/UIButtons/brick1.png"));
-        brickImages.put(3,new Image("res/UIButtons/brick_green.png"));
-        brickImages.put(2,new Image("res/UIButtons/brick_yellow.png"));
-        brickImages.put(1,new Image("res/UIButtons/brick_red.png"));
-        brickImages.put(0,new Image("res/UIButtons/brick_red.png"));
-        width = brickImages.get(getLives()).getWidth();
-        height = brickImages.get(getLives()).getHeight();
+    }
 
-        //draws lines around the brick
-        northLine = new Line(xPosition+1,yPosition,xPosition+width-1,yPosition);
-        southLine = new Line(xPosition+1,yPosition+height,xPosition+width-1,yPosition+height);
-        westLine = new Line(xPosition,yPosition,xPosition,yPosition+height);
-        eastLine = new Line(xPosition+width,yPosition,xPosition+width,yPosition+height);
+    /**
+     * Create the hitbox for the brick.
+     */
+    protected void createHitBox() {
+        width = brickImages.get(1).getWidth();
+        height = brickImages.get(1).getHeight();
+
+        //creates lines around the brick
+        northLine = new Line(xPosition+2,yPosition,xPosition+width-2,yPosition);
+        southLine = new Line(xPosition+2,yPosition+height,xPosition+width-2,yPosition+height);
+        westLine = new Line(xPosition,yPosition+2,xPosition,yPosition+height-2);
+        eastLine = new Line(xPosition+width,yPosition+2,xPosition+width,yPosition+height-2);
+
+        // creates circles in the corners
+        Circle topLeftCirc = new Circle(xPosition + 2, yPosition + 2, 2);
+        Circle topRightCirc = new Circle(xPosition + width - 2, yPosition + 2, 2);
+        Circle bottomLeftCirc = new Circle(xPosition + 2, yPosition + height - 2, 2);
+        Circle bottomRightCirc = new Circle(xPosition + width - 2, yPosition + height - 2, 2);
+
+        corners = new HashSet<>();
+        corners.add(topLeftCirc); corners.add(topRightCirc);
+        corners.add(bottomLeftCirc); corners.add(bottomRightCirc);
     }
 
     public void draw(Graphics g){
-        Image brickImage = brickImages.get(getLives());
+        Image brickImage = brickImages.get(lives);
         g.drawImage(brickImage,xPosition,yPosition);
-        g.draw(northLine); g.draw(southLine); g.draw(westLine); g.draw(eastLine);
+        //g.draw(northLine); g.draw(southLine); g.draw(westLine); g.draw(eastLine);
+    }
+
+    /**
+     * Add the images representing the different livestages.
+     * @param image The image.
+     * @param livesLeft The number of lives left that will be associated with this image.
+     */
+    protected void addImage(Image image, int livesLeft) {
+        brickImages.put(livesLeft,image);
+    }
+
+    public HashSet<Circle> getCorners() {
+        return corners;
     }
 
 
@@ -67,12 +90,10 @@ public class Brick implements PlayingFieldItem {
     public Line getWestLine(){ return westLine; }
     public Line getEastLine(){ return eastLine; }
     public Image getBrickImage(){
-        return brickImages.get(getLives());
+        return brickImages.get(lives);
     }
     public int getWidth(){return width;}
     public int getHeight(){return height;}
     public int getLives(){ return lives;}
     public void decrementLife(){lives--;}
-
 }
-

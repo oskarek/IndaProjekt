@@ -58,7 +58,14 @@ public class PlayingField extends BasicGameState {
 
         for(int i=0;i<brickXPositions.size();i++){
             int x = brickXPositions.get(i); int y = brickYPositions.get(i); int life = brickLevels.get(i);
-            bricks.add(new Brick(x,y,life));
+            switch (life) {
+                case 1: bricks.add(new RegularBrick(x,y));
+                    break;
+                case 2: bricks.add(new WoodBrick(x,y));
+                    break;
+                case 3: bricks.add(new MetalBrick(x,y));
+                    break;
+            }
         }
     }
 
@@ -85,12 +92,13 @@ public class PlayingField extends BasicGameState {
                 }
             }
         };
-        Timer timer2 = new Timer();
-        timer2.scheduleAtFixedRate(powerupTask,10000,15000);
+        //Timer timer2 = new Timer();
+        timer.scheduleAtFixedRate(powerupTask,10000,15000);
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+
         for (PlayingFieldItem item : items) {
             item.draw(g);
         }

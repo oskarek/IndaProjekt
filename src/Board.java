@@ -29,6 +29,7 @@ public class Board implements PlayingFieldItem {
         g.fill(body);
         g.fill(leftEdge);
         g.fill(rightEdge);
+        g.drawImage(boardImage,xPos,yPos);
     }
 
     public float getX() {

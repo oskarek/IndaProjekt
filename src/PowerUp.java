@@ -30,7 +30,7 @@ public class PowerUp implements PlayingFieldItem {
     public PowerUp(int xPosition,int yPosition,int randomNum) throws SlickException {
         //powerupImages = new HashMap<>();
        // powerupImages.put("standard",new Image("res/UIButtons/powerup1.png"));
-        currentImage = new Image("res/UIButtons/brick1.png");
+        currentImage = new Image("res/UIButtons/brick_yellow.png");
         this.xPosition = xPosition; this.yPosition = yPosition;
         float width = currentImage.getWidth();float height = currentImage.getHeight();
         hitBox = new Rectangle(xPosition,yPosition,width,height);

@@ -7,14 +7,13 @@ import org.newdawn.slick.geom.Circle;
  * Created by Robert Lorentz on 08/05/15.
  */
 public class Ball extends Circle implements PlayingFieldItem {
-    private Circle baseShape;
     private float speed;
     private float angle;
     private Image ballImage;
 
-    public Ball(float centerPointX, float centerPointY, float radius) /*throws SlickException*/ {
+    public Ball(float centerPointX, float centerPointY, float radius) throws SlickException {
         super(centerPointX,centerPointY,radius);
-        //ballImage = new Image("res/UIButtons/ball.png");
+        ballImage = new Image("res/UIButtons/ball.png");
 
         //initiating values
         speed = (float)(Math.sqrt(Math.pow(4,2)+Math.pow(4,2)));
@@ -40,23 +39,23 @@ public class Ball extends Circle implements PlayingFieldItem {
     /**
      * Reverse the speed direction.
      */
-    public void reverseSpeed() {
+    public void reverseDirection() {
         if (angle < Math.PI) angle = (float) (angle+Math.PI);
         else angle = (float) (angle-Math.PI);
     }
 
     /**
-     * Reverse the horizontal component of the speed.
+     * Reverse the horizontal component of the direction.
      */
-    public void reverseHorizontalSpeed() {
+    public void reverseHorizontalDirection() {
         if (angle <= Math.PI) angle = (float) (Math.PI-angle);
         else angle = (float) (3*Math.PI-angle);
     }
 
     /**
-     * Reverse the vertical component of the speed.
+     * Reverse the vertical component of the direction.
      */
-    public void reverseVerticalSpeed() {
+    public void reverseVerticalDirection() {
         angle = (float) (2*Math.PI-angle);
     }
 
@@ -116,16 +115,9 @@ public class Ball extends Circle implements PlayingFieldItem {
         return ballImage;
     }
 
-    /**
-     * Return the underlying Circle object that forms this ball.
-     * @return The underlying Circle object that forms this ball.
-     */
-    public Circle getBaseShape() {
-        return baseShape;
-    }
-
     @Override
     public void draw(Graphics g) {
-        g.fill(this);
+        //g.fill(this);
+        g.drawImage(ballImage,super.getX(),super.getY());
     }
 }

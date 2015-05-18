@@ -23,48 +23,57 @@ public class CollideChecker {
 
     /**
      * Checks if the ball has collides with something and, if it has,
-     * updates its speed and direction accordingly.
+     * updates its direction accordingly.
      * @param ball The ball.
-     * @param board The
+     * @param board The board.
+     * @param bricks The bricks.
      */
     public void checkBallCollisions(Ball ball, Board board, ArrayList<Brick> bricks) {
         // check if the ball has hit any of the bricks
         for(Brick brick : bricks){
-            Direction d = getSpeedAfterCollisionWithBrick(ball, brick);
-            if(d != null){
-                switch(d){
-                    case VERTICAL:
-                        ball.reverseVerticalSpeed();
-                        break;
-                    case HORIZONTAL:
-                        ball.reverseHorizontalSpeed();
-                        break;
+            boolean hitBrick = false;
+            if (ball.intersects(brick.getNorthLine()) || ball.intersects(brick.getSouthLine())) {
+                ball.reverseVerticalDirection();
+                hitBrick = true;
+            } else if (ball.intersects(brick.getWestLine()) || ball.intersects(brick.getEastLine())) {
+                ball.reverseHorizontalDirection();
+                hitBrick = true;
+            } else {
+                for (Circle corner : brick.getCorners()) {
+                    if (ball.intersects(corner)) {
+                        float angle = getDirectionAfterCollisionWithCircle(ball,corner);
+                        ball.setDirection(angle);
+                        hitBrick = true;
+                    }
                 }
+            }
+            if (hitBrick) {
+                brick.decrementLife(); Points.getInstance().incrementPoints();
             }
         }
 
         // check if the ball has hit the floor or celing
         if (ball.getMaxY() >= floorPos) {
             ball.setY(floorPos - 2*ball.getRadius());
-            ball.reverseVerticalSpeed();
+            ball.reverseVerticalDirection();
         } else if (ball.getY() <= ceilingPos) {
             ball.setY(ceilingPos);
-            ball.reverseVerticalSpeed();
+            ball.reverseVerticalDirection();
         }
 
         // check if the ball has hit one of the walls
         if (ball.getMaxX() >= rightWallPos) {
             ball.setX(rightWallPos - 2 * ball.getRadius());
-            ball.reverseHorizontalSpeed();
+            ball.reverseHorizontalDirection();
         } else if (ball.getX() <= leftwallPos) {
             ball.setX(leftwallPos);
-            ball.reverseHorizontalSpeed();
+            ball.reverseHorizontalDirection();
         }
 
         // check if the ball has hit the board
         if (ball.intersects(board.getBody())) {
             ball.setY(board.getY() - 2 * ball.getRadius2());
-            ball.reverseVerticalSpeed();
+            ball.reverseVerticalDirection();
         } else if (ball.intersects(board.getLeftEdge())) {
             float angle = getDirectionAfterCollisionWithCircle(ball, board.getLeftEdge());
             ball.setDirection(angle);
@@ -73,6 +82,7 @@ public class CollideChecker {
             ball.setDirection(angle);
         }
     }
+
     public boolean checkPowerUpCollision(PowerUp powerUp, Board board){
         if(powerUp.getHitBox().intersects(board.getBody())){
             return true;
@@ -143,24 +153,4 @@ public class CollideChecker {
         return new Speed(X,Y);
     }
     */
-
-    /**
-     * Returns the speed (and direction) at which the ball should move after a collision
-     * with a brick, based on the angle they collide.
-     * @param ball The ball.
-     * @param brick The brick the ball collides with.
-     * @return A Speed object containing the new x- and Y.
-     */
-    private Direction getSpeedAfterCollisionWithBrick(Ball ball, Brick brick) {
-        if (ball.intersects(brick.getSouthLine()) || ball.intersects(brick.getNorthLine())) {
-            //Decrease the life of the brick and give the player a point.
-            brick.decrementLife(); Points.getInstance().incrementPoints();
-            return Direction.VERTICAL;
-        } else if (ball.intersects(brick.getEastLine()) || ball.intersects(brick.getWestLine())) {
-            //Decrease the life of the brick and give the player a point.
-            brick.decrementLife(); Points.getInstance().incrementPoints();
-            return Direction.HORIZONTAL;
-        }
-        return null;
-    }
 }
