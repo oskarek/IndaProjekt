@@ -4,7 +4,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,6 +19,7 @@ public abstract class Brick implements PlayingFieldItem {
     private HashMap<Integer, Image> brickImages = new HashMap<>();
     private Line northLine, southLine, westLine, eastLine;
     private HashSet<Circle> corners;
+    private Circle topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner;
 
     public Brick(int xPosition, int yPosition, int lives) throws SlickException {
         this.xPosition = xPosition; this.yPosition = yPosition; this.lives = lives;
@@ -39,14 +39,14 @@ public abstract class Brick implements PlayingFieldItem {
         eastLine = new Line(xPosition+width,yPosition+2,xPosition+width,yPosition+height-2);
 
         // creates circles in the corners
-        Circle topLeftCirc = new Circle(xPosition + 2, yPosition + 2, 2);
-        Circle topRightCirc = new Circle(xPosition + width - 2, yPosition + 2, 2);
-        Circle bottomLeftCirc = new Circle(xPosition + 2, yPosition + height - 2, 2);
-        Circle bottomRightCirc = new Circle(xPosition + width - 2, yPosition + height - 2, 2);
+        topLeftCorner = new Circle(xPosition + 2, yPosition + 2, 2);
+        topRightCorner = new Circle(xPosition + width - 2, yPosition + 2, 2);
+        bottomLeftCorner = new Circle(xPosition + 2, yPosition + height - 2, 2);
+        bottomRightCorner = new Circle(xPosition + width - 2, yPosition + height - 2, 2);
 
         corners = new HashSet<>();
-        corners.add(topLeftCirc); corners.add(topRightCirc);
-        corners.add(bottomLeftCirc); corners.add(bottomRightCirc);
+        corners.add(topLeftCorner); corners.add(topRightCorner);
+        corners.add(bottomLeftCorner); corners.add(bottomRightCorner);
     }
 
     public void draw(Graphics g){
@@ -89,6 +89,10 @@ public abstract class Brick implements PlayingFieldItem {
     public Line getSouthLine(){ return southLine; }
     public Line getWestLine(){ return westLine; }
     public Line getEastLine(){ return eastLine; }
+    public Circle getTopLeftCorner() { return topLeftCorner; }
+    public Circle getTopRightCorner() { return topRightCorner; }
+    public Circle getBottomLeftCorner() { return bottomLeftCorner; }
+    public Circle getBottomRightCorner() { return bottomRightCorner; }
     public Image getBrickImage(){
         return brickImages.get(lives);
     }

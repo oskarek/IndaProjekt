@@ -4,11 +4,13 @@
  */
 public enum TranslationAreas {
     START_BUTTON("start_button"),
+    CONTINUE_BUTTON("continue_button"),
     HIGHSCORES_BUTTON("highscores_button"),
     POWERUPS_BUTTON("powerups_button"),
     QUIT_BUTTON("quit_button"),
     BACK_BUTTON("back_button"),
-    INPUT_FIELD("input_field");
+    INPUT_FIELD("input_field"),
+    PAUSE_STRING("pause_string");
 
     private String identifier;
 

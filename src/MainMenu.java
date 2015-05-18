@@ -24,7 +24,9 @@ public class MainMenu extends BasicGameState {
     private static final int POWERUPS_BUTTON = 2;
     private static final int QUIT_BUTTON = 3;
 
+    private boolean gameOnGoing;
     private LangFileReader langReader;
+    private String langFile;
     private ArrayList<Button> buttons;
     private int contWidth, contHeight;
 
@@ -35,6 +37,7 @@ public class MainMenu extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
+        gameOnGoing = false;
         langReader = new LangFileReader();
         // dimensions of the container
         contHeight = container.getHeight();
@@ -92,7 +95,7 @@ public class MainMenu extends BasicGameState {
      */
     public void addButtonLabels() {
         String currLangFileName = "lang/currentlang.txt";
-        String langFile = null;
+        langFile = null;
         try (BufferedReader file = new BufferedReader(new FileReader(currLangFileName))) {
             langFile = file.readLine();
         } catch (FileNotFoundException e) {
@@ -107,7 +110,12 @@ public class MainMenu extends BasicGameState {
         for (int i = 0; i < buttons.size(); i++) {
             String label;
             switch (i) {
-                case 0: label = langReader.getString(TranslationAreas.START_BUTTON,langFile);
+                case 0:
+                    if (!gameOnGoing) {
+                        label = langReader.getString(TranslationAreas.START_BUTTON,langFile);
+                    } else {
+                        label = langReader.getString(TranslationAreas.CONTINUE_BUTTON,langFile);
+                    }
                     break;
                 case 1: label = langReader.getString(TranslationAreas.HIGHSCORES_BUTTON,langFile);
                     break;
@@ -121,6 +129,30 @@ public class MainMenu extends BasicGameState {
             buttons.get(i).setLabel(label,24);
         }
 
+    }
+
+    /**
+     * Change the label on the Start button between "Start" and "Continue".
+     */
+    public void switchStartButtonLabel() {
+        String label;
+        if (gameOnGoing) label = langReader.getString(TranslationAreas.CONTINUE_BUTTON, langFile);
+        else label = langReader.getString(TranslationAreas.START_BUTTON, langFile);
+        buttons.get(START_BUTTON).setLabel(label,24);
+    }
+
+    public void gameIsOnGoing() {
+        if (gameOnGoing) return;
+        String label = langReader.getString(TranslationAreas.CONTINUE_BUTTON, langFile);
+        buttons.get(START_BUTTON).setLabel(label,24);
+        gameOnGoing = true;
+    }
+
+    public void gameIsFinished() {
+        if (!gameOnGoing) return;
+        String label = langReader.getString(TranslationAreas.START_BUTTON, langFile);
+        buttons.get(START_BUTTON).setLabel(label,24);
+        gameOnGoing = false;
     }
 
     @Override
@@ -139,6 +171,9 @@ public class MainMenu extends BasicGameState {
         if (buttons.get(START_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             //PlayingField playingField = (PlayingField) game.getState(1);
             //playingField.setTimer(container);
+            if (!gameOnGoing) {
+                gameIsOnGoing();
+            }
             game.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }
         // check if the quit button has been pressed, and if it has:

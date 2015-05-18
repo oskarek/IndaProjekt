@@ -1,9 +1,16 @@
 import org.newdawn.slick.*;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import java.awt.*;
+import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -13,7 +20,11 @@ import java.util.*;
  */
 public class PlayingField extends BasicGameState {
     private int contWidth, contHeight;
+    private LangFileReader langReader;
     private CollideChecker collideChecker;
+    private String pauseString;
+    private TrueTypeFont font;
+    private boolean gamePaused;
     private ArrayList<PlayingFieldItem> items;
     private Board board;
     private Ball ball;
@@ -35,7 +46,12 @@ public class PlayingField extends BasicGameState {
         contHeight = container.getHeight();
         contWidth = container.getWidth();
 
+        langReader = new LangFileReader();
         collideChecker = new CollideChecker(container);
+        // load a default java font
+        Font awtFont = new Font("Times New Roman", java.awt.Font.BOLD, 18);
+        font = new TrueTypeFont(awtFont, true);
+        gamePaused = true;
         items = new ArrayList<>();
         board = new Board(70,contHeight-30,80,15);
         float ballRadius = 10;
@@ -76,62 +92,89 @@ public class PlayingField extends BasicGameState {
             item.draw(g);
         }
         g.drawString("Points : " + Points.getInstance().getPoints(),container.getWidth()-120,0);
+        if (gamePaused) {
+            int stringWidth = font.getWidth(pauseString);
+            font.drawString(contWidth/2-stringWidth/2, contHeight/2, pauseString);
+        }
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        // update the ball position
-        updateBallPos(delta);
-
-        updatePowerUpPos();
-
-        //update all the bricks
-        updateBricks();
-
         Input input = container.getInput();
-        // move the board to the left if the left key is pressed
-        if (input.isKeyDown(Input.KEY_LEFT)) {
-            updateBoardPos(Direction.LEFT, delta);
-        }
-        // move the board to the right if the right key is pressed
-        if (input.isKeyDown(Input.KEY_RIGHT)) {
-            updateBoardPos(Direction.RIGHT, delta);
-        }
-        // go to the main menu if the escape key is pressed.
-        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            game.enterState(0, new FadeOutTransition(), new FadeInTransition());
-        }
-        //check if the game has been beaten
-        if(bricks.size() <= 0){
-            game.enterState(4,new FadeOutTransition(), new FadeInTransition());
-        }
 
-        timer++;
-        if (timer % 50 == 0) {
-            Points.getInstance().decrementPoints();
-        }
-        if (timer % 800 == 0) {
-            Random rand = new Random();
-            int r = rand.nextInt(4);
-            int x = rand.nextInt(container.getWidth());
-            int y = -50;
-            switch(r){
-                case 0: powerUp = new FastBall(x, y, ball);
-                    break;
-                case 1: powerUp = new SlowBall(x,y,ball);
-                    break;
-                case 2: powerUp = new BigBoard(x,y,board);
-                    break;
-                case 3: powerUp = new SmallBoard(x,y,board);
-                    break;
+        if (!gamePaused) {
+            // update the ball position
+            updateBallPos(delta);
+
+            updatePowerUpPos();
+
+            //update all the bricks
+            updateBricks();
+
+            // move the board to the left if the left key is pressed
+            if (input.isKeyDown(Input.KEY_LEFT)) {
+                updateBoardPos(Direction.LEFT, delta);
             }
-            items.add(powerUp);
-        }
-        if(powerUpInvoked){
-            timer2++;
-            if(timer2 % 400 == 0 ){
-                powerUp.reverse();
-                powerUpInvoked = false;
+            // move the board to the right if the right key is pressed
+            if (input.isKeyDown(Input.KEY_RIGHT)) {
+                updateBoardPos(Direction.RIGHT, delta);
+            }
+            // go to the main menu if the escape key is pressed.
+            if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+                gamePaused = true;
+                game.enterState(0, new FadeOutTransition(), new FadeInTransition());
+            }
+            // pause the game if the space bar is pressed
+            if (input.isKeyPressed(Input.KEY_SPACE)) {
+                gamePaused = true;
+            }
+            //check if the game has been beaten
+            if (bricks.size() <= 0) {
+                MainMenu mainMenu = (MainMenu) game.getState(0);
+                mainMenu.gameIsFinished();
+                game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+            }
+
+            timer++;
+            if (timer % 50 == 0) {
+                Points.getInstance().decrementPoints();
+            }
+            if (timer % 800 == 0) {
+                Random rand = new Random();
+                int r = rand.nextInt(4);
+                int x = rand.nextInt(container.getWidth());
+                int y = -50;
+                switch (r) {
+                    case 0:
+                        powerUp = new FastBall(x, y, ball);
+                        break;
+                    case 1:
+                        powerUp = new SlowBall(x, y, ball);
+                        break;
+                    case 2:
+                        powerUp = new BigBoard(x, y, board);
+                        break;
+                    case 3:
+                        powerUp = new SmallBoard(x, y, board);
+                        break;
+                }
+                items.add(powerUp);
+            }
+            if (powerUpInvoked) {
+                timer2++;
+                if (timer2 % 400 == 0) {
+                    powerUp.reverse();
+                    powerUpInvoked = false;
+                }
+            }
+        } else {
+            // start game if space bar is pressed
+            if (input.isKeyPressed(Input.KEY_SPACE)) {
+                gamePaused = !gamePaused;
+            }
+            // go to the main menu if the escape key is pressed.
+            if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+                game.enterState(0, new FadeOutTransition(), new FadeInTransition());
             }
         }
     }
@@ -193,5 +236,22 @@ public class PlayingField extends BasicGameState {
                 board.setX(xPos);
             }
         }
+    }
+
+    public void initPauseString() {
+        String currLangFileName = "lang/currentlang.txt";
+        String langFile = null;
+        try (BufferedReader file = new BufferedReader(new FileReader(currLangFileName))) {
+            langFile = file.readLine();
+        } catch (FileNotFoundException e) {
+            System.err.println("Couldn't find the currentlang file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (langFile == null) {
+            throw new RuntimeException("The currentlang file is empty.");
+        }
+
+        pauseString = langReader.getString(TranslationAreas.PAUSE_STRING,langFile);
     }
 }

@@ -1,6 +1,8 @@
 start_button : STARTA SPELET
+continue_button : FORTSÄTT
 highscores_button : TOPPLISTA
 powerups_button : POWER-UPS
 quit_button : AVSLUTA
 back_button : TILLBAKA
+pause_string : Tryck på mellanslagstangenten för att spela
 input_field : Skriv ditt namn här

@@ -82,6 +82,16 @@ public class Ball extends Circle implements PlayingFieldItem {
         this.angle = angle;
     }
 
+    public boolean hasPositiveXDirection() {
+        if (angle<=(Math.PI)/2 || angle>=(3*Math.PI)/2) return true;
+        return false;
+    }
+
+    public boolean hasPositiveYDirection() {
+        if (angle<=Math.PI || angle == 2*Math.PI) return true;
+        return false;
+    }
+
     /**
      * Move the ball a given distance.
      * @param distance The distance to move the ball.
@@ -90,24 +100,24 @@ public class Ball extends Circle implements PlayingFieldItem {
         float x = super.getX();
         float y = super.getY();
         float alpha = angle;
-        if (angle>=0 && angle<Math.PI/2) {
+        if (angle>=0 && angle<((Math.PI)/2)) {
             super.setX(x + (float) (distance*Math.cos(alpha)));
             super.setY(y + (float) -(distance*Math.sin(alpha)));
             return;
         }
-        if (angle>=Math.PI/2 && angle<Math.PI) {
+        if (angle>=((Math.PI)/2) && angle<(Math.PI)) {
             alpha = (float) (Math.PI - alpha);
             super.setX(x + (float) -(distance*Math.cos(alpha)));
             super.setY(y + (float) -(distance*Math.sin(alpha)));
             return;
         }
-        if (angle>=Math.PI && angle<3*Math.PI/2) {
+        if (angle>=(Math.PI) && angle<((3*Math.PI)/2)) {
             alpha = (float) (Math.PI + alpha);
             super.setX(x + (float) -(distance*Math.cos(alpha)));
             super.setY(y + (float) (distance*Math.sin(alpha)));
             return;
         }
-        if (angle>=(3*Math.PI)/2 && angle<=2*Math.PI) {
+        if (angle>=((3*Math.PI)/2) && angle<=(2*Math.PI)) {
             alpha = (float) (2*Math.PI - alpha);
             super.setX(x + (float) (distance*Math.cos(alpha)));
             super.setY(y + (float) (distance*Math.sin(alpha)));

@@ -1,3 +1,4 @@
+import javafx.print.PageLayout;
 import org.newdawn.slick.*;
 import org.newdawn.slick.openal.StreamSound;
 import org.newdawn.slick.state.BasicGameState;
@@ -78,7 +79,9 @@ public class LanguageSelectionScreen extends BasicGameState {
 
         if (langSelection!=null) {
             MainMenu mainMenu = (MainMenu) game.getState(0);
+            PlayingField playingField = (PlayingField) game.getState(1);
             mainMenu.addButtonLabels();
+            playingField.initPauseString();
             game.enterState(mainMenu.getID(), new FadeOutTransition(), new FadeInTransition());
         }
 

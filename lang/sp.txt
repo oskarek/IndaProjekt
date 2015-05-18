@@ -1,6 +1,8 @@
 start_button : COMENZAR EL JUEGO
+continue_button : CONTINUAR
 highscores_button : PUNTAJES ALTOS
 powerups_button : POWER-UPS
 quit_button : DEJAR
 back_button : ESPALDA
+pause_string : Pulse la barra espaciadora para jugar
 field : Escribir su nombre aquí
