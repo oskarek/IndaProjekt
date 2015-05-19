@@ -45,26 +45,27 @@ public class CollideChecker {
             }*/
             if (ball.intersects(brick.getTopLeftCorner())) {
                 float angle = getDirectionAfterCollisionWithCircle(ball,brick.getTopLeftCorner());
-                if (!ball.hasPositiveXDirection() && angle<(Math.PI)/2) ball.reverseVerticalDirection();
-                else if (ball.hasPositiveYDirection() && angle>Math.PI) ball.reverseHorizontalDirection();
+                if ((!ball.hasPositiveXDirection()) && angle<reverseVerticalDirection(angle)) ball.reverseVerticalDirection();
+                else if (ball.hasPositiveYDirection() && angle>reverseHorizontalDirection(angle)) ball.reverseHorizontalDirection();
                 else ball.setDirection(angle);
                 hitCorner = true;
             } else if (ball.intersects(brick.getTopRightCorner())) {
                 float angle = getDirectionAfterCollisionWithCircle(ball,brick.getTopRightCorner());
-                if (ball.hasPositiveXDirection() && angle>(Math.PI)/2 && angle<Math.PI) ball.reverseVerticalDirection();
-                else if (ball.hasPositiveYDirection() && angle>(3*Math.PI)/2) ball.reverseHorizontalDirection();
+                if (ball.hasPositiveXDirection() && angle>reverseVerticalDirection(angle) && angle<Math.PI) ball.reverseVerticalDirection();
+                else if (ball.hasPositiveYDirection() && (angle<reverseHorizontalDirection(angle)
+                || angle>Math.PI)) ball.reverseHorizontalDirection();
                 else ball.setDirection(angle);
                 hitCorner = true;
             } else if (ball.intersects(brick.getBottomLeftCorner())) {
                 float angle = getDirectionAfterCollisionWithCircle(ball,brick.getBottomLeftCorner());
-                if (!ball.hasPositiveXDirection() && angle>(3*Math.PI)/2) ball.reverseVerticalDirection();
-                else if (!ball.hasPositiveYDirection() && angle<Math.PI) ball.reverseHorizontalDirection();
+                if ((!ball.hasPositiveXDirection()) && angle>reverseVerticalDirection(angle)) ball.reverseVerticalDirection();
+                else if ((!ball.hasPositiveYDirection()) && angle<reverseHorizontalDirection(angle)) ball.reverseHorizontalDirection();
                 else ball.setDirection(angle);
                 hitCorner = true;
             } else if (ball.intersects(brick.getBottomRightCorner())) {
                 float angle = getDirectionAfterCollisionWithCircle(ball,brick.getBottomRightCorner());
-                if (ball.hasPositiveXDirection() && angle>(3*Math.PI)/4 && angle<(3*Math.PI)/2) ball.reverseVerticalDirection();
-                else if (!ball.hasPositiveYDirection() && angle<Math.PI) ball.reverseHorizontalDirection();
+                if (ball.hasPositiveXDirection() && angle<reverseVerticalDirection(angle) && angle>Math.PI) ball.reverseVerticalDirection();
+                else if ((!ball.hasPositiveYDirection()) && angle>reverseHorizontalDirection(angle)) ball.reverseHorizontalDirection();
                 else ball.setDirection(angle);
                 hitCorner = true;
             }
@@ -214,6 +215,21 @@ public class CollideChecker {
     private float reverseDirection(float dir) {
         if (dir < Math.PI) return (float) (dir+Math.PI);
         else return (float) (dir-Math.PI);
+    }
+
+    /**
+     * Get the reverse of the horizontal component of the direction.
+     */
+    public float reverseHorizontalDirection(float angle) {
+        if (angle <= Math.PI) return (float) (Math.PI-angle);
+        else return (float) (3*Math.PI-angle);
+    }
+
+    /**
+     * Get the reverse of the vertical component of a direction.
+     */
+    public float reverseVerticalDirection(float angle) {
+        return (float) (2*Math.PI-angle);
     }
 
     /*public Speed getSpeedAfterCollision2(Ball ball, Board board){

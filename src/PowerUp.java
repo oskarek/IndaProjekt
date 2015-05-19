@@ -3,11 +3,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-
 /**
  * A power.up in the game.
  * Created by oskarek on 2015-05-07.
@@ -17,19 +12,19 @@ public abstract class PowerUp implements PlayingFieldItem {
     private float xPosition;
     private float yPosition;
     private int duration;
-    private Image currentImage;
+    private Image image;
     private Rectangle hitBox;
     private float width; private float height;
 
     public PowerUp(int xPosition,int yPosition) throws SlickException {
-        currentImage = new Image("res/UIButtons/powerup1.png");
+        image = new Image("res/UIButtons/powerup_bigboard.png");
         this.xPosition = xPosition; this.yPosition = yPosition;
-        width = currentImage.getWidth();height = currentImage.getHeight();
+        width = image.getWidth();height = image.getHeight();
         hitBox = new Rectangle(xPosition,yPosition,width,height);
     }
     @Override
     public void draw(Graphics g) {
-        g.drawImage(currentImage, xPosition, yPosition);
+        g.drawImage(image, xPosition, yPosition);
     }
 
     /**
@@ -48,8 +43,25 @@ public abstract class PowerUp implements PlayingFieldItem {
         this.duration = duration;
     }
 
+    /**
+     * Get the image of this powerup.
+     * @return The image.
+     */
+    public Image getImage() {
+        return image;
+    }
+
+    /**
+     * Set the image of this powerup.
+     * @param image The image.
+     */
+    protected void setImage(Image image) {
+        this.image = image;
+    }
+
     public abstract void invoke();
     public abstract void reverse();
+
     public void setY(float yPosition){
         this.yPosition = yPosition;
     }

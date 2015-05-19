@@ -143,11 +143,15 @@ public class Ball extends Circle implements PlayingFieldItem {
     }
 
     public void setNormalSize() {
+        super.setX(super.getCenterX()-10);
+        super.setY(super.getCenterY()-10);
         super.setRadius(10);
         currentBallImage = normalSizeBallImage;
     }
 
     public void setBigSize() {
+        super.setX(super.getCenterX()-40);
+        super.setY(super.getCenterY()-40);
         super.setRadius(40);
         currentBallImage = bigSizeBallImage;
     }

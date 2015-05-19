@@ -1,3 +1,4 @@
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -7,6 +8,7 @@ public class SmallBoard extends PowerUp {
     private Board board;
     public SmallBoard(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
+        super.setImage(new Image("res/UIButtons/powerup_smallboard.png"));
         super.setDuration(500);
         this.board = board;
     }
