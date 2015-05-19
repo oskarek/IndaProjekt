@@ -7,6 +7,7 @@ public class SlowBall extends PowerUp {
     private Ball ball;
     public SlowBall(int xPosition, int yPosition, Ball ball) throws SlickException {
         super(xPosition, yPosition);
+        super.setDuration(500);
         this.ball = ball;
     }
     public void invoke(){

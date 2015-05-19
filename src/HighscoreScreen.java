@@ -8,7 +8,8 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import java.awt.Font;
 import org.newdawn.slick.util.ResourceLoader;
-import java.io.InputStream;
+
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -62,7 +63,7 @@ public class HighscoreScreen extends BasicGameState {
         int yPos = container.getHeight()-height-10;
         int xPos = container.getWidth()-width-10;
         String label = langReader.getString(TranslationAreas.BACK_BUTTON,"sv.txt");
-        backButton = new Button(container,backButtonImage,xPos,yPos,label,18);
+        backButton = new Button(container,backButtonImage,xPos,yPos);
 
         // darken the back button when it's hovered/pressed
         backButton.setMouseOverColor(Color.lightGray);
@@ -70,6 +71,28 @@ public class HighscoreScreen extends BasicGameState {
 
         // load the pressed button images as "back button pressed"
         backButton.setMouseDownImage(backButtonPressed);
+    }
+
+    public void addLabels() {
+        String currLangFileName = "lang/currentlang.txt";
+        String langFile = null;
+        try (BufferedReader file = new BufferedReader(new FileReader(currLangFileName))) {
+            langFile = file.readLine();
+        } catch (FileNotFoundException e) {
+            System.err.println("Couldn't find the currentlang file.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (langFile == null) {
+            throw new RuntimeException("The currentlang file is empty.");
+        }
+
+        String label = langReader.getString(TranslationAreas.BACK_BUTTON,langFile);
+        backButton.setLabel(label,18);
+    }
+
+    public void newScoreAdded() {
+
     }
 
     @Override

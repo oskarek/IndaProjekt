@@ -7,6 +7,7 @@ public class SmallBoard extends PowerUp {
     private Board board;
     public SmallBoard(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
+        super.setDuration(500);
         this.board = board;
     }
     public void invoke() {

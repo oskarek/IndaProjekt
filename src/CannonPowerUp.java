@@ -7,6 +7,7 @@ public class CannonPowerUp extends PowerUp {
     private Board board;
     public CannonPowerUp(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
+        super.setDuration(200);
         this.board = board;
     }
 

@@ -16,6 +16,7 @@ public abstract class PowerUp implements PlayingFieldItem {
 
     private float xPosition;
     private float yPosition;
+    private int duration;
     private Image currentImage;
     private Rectangle hitBox;
     private float width; private float height;
@@ -29,6 +30,22 @@ public abstract class PowerUp implements PlayingFieldItem {
     @Override
     public void draw(Graphics g) {
         g.drawImage(currentImage, xPosition, yPosition);
+    }
+
+    /**
+     * Get the duration that this PowerUp will be active.
+     * @return The duration.
+     */
+    public int getDuration() {
+        return duration;
+    }
+
+    /**
+     * Set the duration that this PowerUp will be active.
+     * @param duration The duration.
+     */
+    protected void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public abstract void invoke();

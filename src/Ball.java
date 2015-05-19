@@ -9,12 +9,14 @@ import org.newdawn.slick.geom.Circle;
 public class Ball extends Circle implements PlayingFieldItem {
     private float speed;
     private float angle;
-    private Image ballImage;
+    private Image currentBallImage, normalSizeBallImage, bigSizeBallImage;
     private float centerPointX, centerPointY, radius;
 
     public Ball(float centerPointX, float centerPointY, float radius, float speed) throws SlickException {
         super(centerPointX,centerPointY,radius);
-        ballImage = new Image("res/UIButtons/ball.png");
+        bigSizeBallImage = new Image("res/UIButtons/ball_x4.png");
+        normalSizeBallImage = new Image("res/UIButtons/ball.png");
+        currentBallImage = normalSizeBallImage;
         this.centerPointX = centerPointX; this.centerPointY = centerPointY; this.radius = radius;
 
         //initiating values
@@ -131,20 +133,22 @@ public class Ball extends Circle implements PlayingFieldItem {
      * Get the image that represents the ball.
      * @return An Image object representing this ball.
      */
-    public Image getBallImage(){
-        return ballImage;
+    public Image getCurrentBallImage(){
+        return currentBallImage;
     }
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(ballImage, super.getX(), super.getY());
+        g.drawImage(currentBallImage, super.getX(), super.getY());
     }
 
-    public void normalSize() {
+    public void setNormalSize() {
         super.setRadius(10);
+        currentBallImage = normalSizeBallImage;
     }
 
-    public void fourTimesOriginalSize() {
+    public void setBigSize() {
         super.setRadius(40);
+        currentBallImage = bigSizeBallImage;
     }
 }

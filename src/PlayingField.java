@@ -137,6 +137,7 @@ public class PlayingField extends BasicGameState {
             }
             // go to the main menu if the escape key is pressed.
             if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+                gamePaused = true;
                 game.enterState(0, new FadeOutTransition(), new FadeInTransition());
             }
             //check if the game has been beaten
@@ -162,7 +163,7 @@ public class PlayingField extends BasicGameState {
                 int r = rand.nextInt(6);
                 int x = rand.nextInt(container.getWidth());
                 int y = -50;
-                r = 5;
+                r = 4;
                 switch (r) {
                     case 0:
                         powerUp = new FastBall(x, y, ball);
@@ -204,7 +205,8 @@ public class PlayingField extends BasicGameState {
 
             if (powerUpInvoked) {
                 timer2++;
-                if (timer2 % 400 == 0) {
+                int duration = powerUp.getDuration();
+                if (timer2 % duration == 0) {
                     powerUp.reverse();
                     powerUpInvoked = false;
                 }
