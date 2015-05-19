@@ -195,6 +195,17 @@ public class CollideChecker {
         return false;
     }
 
+    public boolean checkLaserCollision(ArrayList<Brick> bricks, Laser laser){
+        for(Brick brick : bricks) {
+            if (laser.intersects(brick.getSouthLine()) || laser.intersects(brick.getBottomLeftCorner())
+                    || laser.intersects(brick.getBottomRightCorner())) {
+                brick.decrementLife(); Points.getInstance().addPoints(10);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Reverse a given direction.
      * @param dir The direction.

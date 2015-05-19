@@ -28,12 +28,10 @@ public class PlayingField extends BasicGameState {
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
-    private int timer;
-    private int timer2;
+    private int timer, timer2; private int prevPowerUp=-1;
     private PowerUp powerUp;
     private boolean powerUpInvoked;
-    private ArrayList<Ball> balls;
-    private ArrayList<Projectile> projectiles;
+    private ArrayList<Laser> lasers; private ArrayList<Ball> balls; private ArrayList<Projectile> projectiles;
 
     @Override
     public int getID() {
@@ -69,7 +67,7 @@ public class PlayingField extends BasicGameState {
         mapmaker.writeMap(container);
         initBricks();
         Points.getInstance().addPoints(500);
-        projectiles = new ArrayList<>();
+        projectiles = new ArrayList<>(); lasers = new ArrayList<>();
 
 
     }
@@ -96,19 +94,13 @@ public class PlayingField extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        for (PlayingFieldItem item : items) {
-            item.draw(g);
-        }
-        g.drawString("Points : " + Points.getInstance().getPoints(),container.getWidth()-120,0);
 
-        for(Projectile projectile : projectiles){
-            projectile.draw(g);
-        }
-        for(Brick brick : bricks){
-            if(brick.getBrickImage() != null){
-                brick.draw(g);
-            }
-        }
+        for (PlayingFieldItem item : items) { item.draw(g);}
+        for(Projectile projectile : projectiles){ projectile.draw(g);}
+        for(Brick brick : bricks){ if(brick.getBrickImage() != null){ brick.draw(g); }}
+        for(Laser laser: lasers){ laser.draw(g);}
+        g.drawString("Points : " + Points.getInstance().getPoints(), container.getWidth() - 120, 0);
+
         if (gamePaused) {
             int stringWidth = font.getWidth(pauseString);
             font.drawString(contWidth/2-stringWidth/2, contHeight/2, pauseString);
@@ -126,6 +118,8 @@ public class PlayingField extends BasicGameState {
             updatePowerUpPos();
 
             updateProjectilePos();
+
+            updateLaserPos();
 
             // move the board to the left if the left key is pressed
             if (input.isKeyDown(Input.KEY_LEFT)) {
@@ -148,9 +142,12 @@ public class PlayingField extends BasicGameState {
             updateBricks();
 
             if (input.isKeyPressed(Input.KEY_SPACE)) {
-                if (true) {
+                if (board.ableToShootSmallCannons()) {
                     projectiles.add(new Projectile(board.getXPosFirstCannon(), board.getYPosFirstCannon(), 1));
                     projectiles.add(new Projectile(board.getXPosSecondCannon(), board.getYPosSecondCannon(), 1));
+                }
+                if(board.ableToShootBigCannon()){
+                    lasers.add(new Laser(board.getXPosBigCannon(),board.getYPosBigCannon()-80, 10));
                 }
             }
 
@@ -160,10 +157,13 @@ public class PlayingField extends BasicGameState {
             }
             if (timer % 800 == 0) {
                 Random rand = new Random();
-                int r = rand.nextInt(6);
+                int r= rand.nextInt(7);
+                while(r == prevPowerUp){
+                    r = rand.nextInt(7);
+                }
                 int x = rand.nextInt(container.getWidth());
                 int y = -50;
-                r = 4;
+                r=6;
                 switch (r) {
                     case 0:
                         powerUp = new FastBall(x, y, ball);
@@ -182,6 +182,9 @@ public class PlayingField extends BasicGameState {
                         break;
                     case 5:
                         powerUp = new CannonPowerUp(x, y, board);
+                        break;
+                    case 6:
+                        powerUp = new LaserPowerUp(x,y,board);
                         break;
                 }
                 items.add(powerUp);
@@ -256,6 +259,16 @@ public class PlayingField extends BasicGameState {
             }
 
         }
+    }
+    public void updateLaserPos() throws SlickException {
+        if(lasers.size()>0) {
+            lasers.add(new Laser(lasers.get(lasers.size() - 1).getX(), lasers.get(lasers.size() - 1).getY() - 4, 10));
+            for(Laser laser: lasers){
+                laser.setCenterX((board.getXPosBigCannon()+10));
+            }
+        }
+
+
     }
 
 

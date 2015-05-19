@@ -15,8 +15,8 @@ public class Board implements PlayingFieldItem {
     private Image currentBoardImage;
     private int speed;
     private int score;
-    private boolean activeCannons;
-    private Cannons cannons;
+    private boolean activeSmallCannons, activeBigCannon;
+    private Cannon smallCannon1, smallCannon2, bigCannon;
 
     public Board(float x, float y, float length, float height) throws SlickException {
         xPos = x; yPos = y; this.length = length; this.height = height;
@@ -35,8 +35,12 @@ public class Board implements PlayingFieldItem {
         g.fill(leftEdge);
         g.fill(rightEdge);
         g.drawImage(currentBoardImage,xPos,yPos);
-        if(activeCannons){
-            cannons.draw(g);
+        if(activeSmallCannons){
+            smallCannon1.draw(g);
+            smallCannon2.draw(g);
+        }
+        if(activeBigCannon){
+            bigCannon.draw(g);
         }
     }
 
@@ -53,8 +57,12 @@ public class Board implements PlayingFieldItem {
         body.setX(x + height / 2);
         rightEdge.setX(x + length - height);
         xPos = x;
-        if(activeCannons){
-            cannons.setX(x+height/2,x+length-height/2);
+        if(activeSmallCannons){
+            smallCannon2.setX(x+height/2);
+            smallCannon2.setX(x+length-height/2);
+        }
+        if(activeBigCannon){
+            bigCannon.setX(x+length/2);
         }
     }
 
@@ -122,24 +130,32 @@ public class Board implements PlayingFieldItem {
     public int getScore(){ return score; }
 
     public void addCannons(){
-        activeCannons = true;
-        cannons = new Cannons(xPos+height/2,yPos-height,xPos+length-height/2-4,yPos-height,3);
+        activeSmallCannons = true;
+        smallCannon1 = new Cannon(xPos+height/2,yPos-height,4,7);
+        smallCannon2 = new Cannon(xPos+length-height/2-4,yPos-height,4,7);
     }
     public void removeCannons(){
-        activeCannons = false;
-        cannons = null;
+        activeSmallCannons = false;
+        smallCannon1 = null; smallCannon2 = null;
     }
-    public boolean ableToShoot(){
-        if(cannons != null){
-            if(cannons.getAmmo() > 0){
-                cannons.decrementAmmo();
-                return true;
-            }
-        }
-        return false;
+    public boolean ableToShootSmallCannons(){
+        return activeSmallCannons;
+    }
+    public void addBigCannon(){
+        activeBigCannon = true;
+        bigCannon = new Cannon(xPos+length/2-10,yPos-15,7,20);
+    }
+    public void removeBigCannon(){
+        activeBigCannon = false;
+        bigCannon = null;
+    }
+    public boolean ableToShootBigCannon(){
+        return activeBigCannon;
     }
     public float getXPosFirstCannon(){ return xPos+height/2;}
     public float getYPosFirstCannon(){ return yPos-height; }
     public float getXPosSecondCannon(){ return xPos+length-height/2-4; }
     public float getYPosSecondCannon(){ return yPos-height; }
+    public float getXPosBigCannon(){ return xPos+length/2-7; }
+    public float getYPosBigCannon(){ return yPos-15; }
 }
