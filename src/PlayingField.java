@@ -30,7 +30,7 @@ public class PlayingField extends BasicGameState {
     private ArrayList<Brick> bricks;
     private int timer, timer2; private int prevPowerUp=-1;
     private PowerUp powerUp;
-    private boolean powerUpInvoked;
+    private boolean powerUpInvoked, cannonActive, hasFired;
     private ArrayList<Laser> lasers; private ArrayList<Ball> balls; private ArrayList<Projectile> projectiles;
 
     @Override
@@ -145,9 +145,11 @@ public class PlayingField extends BasicGameState {
                 if (board.ableToShootSmallCannons()) {
                     projectiles.add(new Projectile(board.getXPosFirstCannon(), board.getYPosFirstCannon(), 1));
                     projectiles.add(new Projectile(board.getXPosSecondCannon(), board.getYPosSecondCannon(), 1));
+                    hasFired=true;
                 }
-                if(board.ableToShootBigCannon()){
-                    lasers.add(new Laser(board.getXPosBigCannon(),board.getYPosBigCannon()-80, 10));
+                if(board.ableToShootLaserCannon()){
+                    lasers.add(new Laser(board.getXPosLaserCannon()+4,board.getYPosLaserCannon()-125));
+                    hasFired = true;
                 }
             }
 
@@ -163,7 +165,6 @@ public class PlayingField extends BasicGameState {
                 }
                 int x = rand.nextInt(container.getWidth());
                 int y = -50;
-                r=6;
                 switch (r) {
                     case 0:
                         powerUp = new FastBall(x, y, ball);
@@ -182,9 +183,11 @@ public class PlayingField extends BasicGameState {
                         break;
                     case 5:
                         powerUp = new CannonPowerUp(x, y, board);
+                        cannonActive=true;
                         break;
                     case 6:
                         powerUp = new LaserPowerUp(x,y,board);
+                        cannonActive=true;
                         break;
                 }
                 items.add(powerUp);
@@ -209,7 +212,11 @@ public class PlayingField extends BasicGameState {
             if (powerUpInvoked) {
                 timer2++;
                 int duration = powerUp.getDuration();
-                if (timer2 % duration == 0) {
+                if (timer2 % duration == 0 && !cannonActive) {
+                    powerUp.reverse();
+                    powerUpInvoked = false;
+                }
+                if(hasFired && timer2 % duration == 0){
                     powerUp.reverse();
                     powerUpInvoked = false;
                 }
@@ -262,19 +269,17 @@ public class PlayingField extends BasicGameState {
     }
     public void updateLaserPos() throws SlickException {
         if(lasers.size()>0) {
-            lasers.add(new Laser(lasers.get(lasers.size() - 1).getX(), lasers.get(lasers.size() - 1).getY() - 4, 10));
+            lasers.add(new Laser(lasers.get(lasers.size()-1).getX(), lasers.get(lasers.size()-1).getY() - 50));
             for(Laser laser: lasers){
-                laser.setCenterX((board.getXPosBigCannon()+10));
+                laser.setX((board.getXPosLaserCannon()+4));
+                collideChecker.checkLaserCollision(bricks,laser);
+            }
+            if(!board.ableToShootLaserCannon()){
+                lasers = new ArrayList<>();
             }
         }
-
-
     }
-
-
-
-
-    public void updatePowerUpPos(){
+    public void updatePowerUpPos() throws SlickException {
         if(powerUp != null) {
             powerUp.setY(powerUp.getY()+3);
             powerUp.updateHitBox();

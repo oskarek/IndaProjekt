@@ -15,8 +15,9 @@ public class Board implements PlayingFieldItem {
     private Image currentBoardImage;
     private int speed;
     private int score;
-    private boolean activeSmallCannons, activeBigCannon;
-    private Cannon smallCannon1, smallCannon2, bigCannon;
+    private boolean activeSmallCannons, activeLaserCannon;
+    private BulletCannon smallCannon1, smallCannon2;
+    private LaserCannon laserCannon;
 
     public Board(float x, float y, float length, float height) throws SlickException {
         xPos = x; yPos = y; this.length = length; this.height = height;
@@ -39,8 +40,8 @@ public class Board implements PlayingFieldItem {
             smallCannon1.draw(g);
             smallCannon2.draw(g);
         }
-        if(activeBigCannon){
-            bigCannon.draw(g);
+        if(activeLaserCannon){
+            laserCannon.draw(g);
         }
     }
 
@@ -58,11 +59,11 @@ public class Board implements PlayingFieldItem {
         rightEdge.setX(x + length - height);
         xPos = x;
         if(activeSmallCannons){
-            smallCannon2.setX(x+height/2);
-            smallCannon2.setX(x+length-height/2);
+            smallCannon1.setX(x+height/2+4);
+            smallCannon2.setX(x+length-height/2-4);
         }
-        if(activeBigCannon){
-            bigCannon.setX(x+length/2);
+        if(activeLaserCannon){
+            laserCannon.setX(x+length/2-10);
         }
     }
 
@@ -118,21 +119,10 @@ public class Board implements PlayingFieldItem {
         return speed;
     }
 
-    public void setSpeed(int speed){
-        this.speed = speed;
-    }
-
-    public Image getBoardImage(){
-        return boardImage;
-    }
-
-    public void incrementScore(){ score++;}
-    public int getScore(){ return score; }
-
-    public void addCannons(){
+    public void addCannons() throws SlickException {
         activeSmallCannons = true;
-        smallCannon1 = new Cannon(xPos+height/2,yPos-height,4,7);
-        smallCannon2 = new Cannon(xPos+length-height/2-4,yPos-height,4,7);
+        smallCannon1 = new BulletCannon(xPos+height/2+4,yPos-height);
+        smallCannon2 = new BulletCannon(xPos+length-height/2-4,yPos-height);
     }
     public void removeCannons(){
         activeSmallCannons = false;
@@ -141,21 +131,21 @@ public class Board implements PlayingFieldItem {
     public boolean ableToShootSmallCannons(){
         return activeSmallCannons;
     }
-    public void addBigCannon(){
-        activeBigCannon = true;
-        bigCannon = new Cannon(xPos+length/2-10,yPos-15,7,20);
+    public void addLaserCannon() throws SlickException {
+        activeLaserCannon = true;
+        laserCannon = new LaserCannon(xPos+length/2-10,yPos-35);
     }
-    public void removeBigCannon(){
-        activeBigCannon = false;
-        bigCannon = null;
+    public void removeLaserCannon(){
+        activeLaserCannon = false;
+        laserCannon = null;
     }
-    public boolean ableToShootBigCannon(){
-        return activeBigCannon;
+    public boolean ableToShootLaserCannon(){
+        return activeLaserCannon;
     }
     public float getXPosFirstCannon(){ return xPos+height/2;}
     public float getYPosFirstCannon(){ return yPos-height; }
     public float getXPosSecondCannon(){ return xPos+length-height/2-4; }
     public float getYPosSecondCannon(){ return yPos-height; }
-    public float getXPosBigCannon(){ return xPos+length/2-7; }
-    public float getYPosBigCannon(){ return yPos-15; }
+    public float getXPosLaserCannon(){ return xPos+length/2-7; }
+    public float getYPosLaserCannon(){ return yPos-15; }
 }

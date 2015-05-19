@@ -59,7 +59,7 @@ public abstract class PowerUp implements PlayingFieldItem {
         this.image = image;
     }
 
-    public abstract void invoke();
+    public abstract void invoke() throws SlickException;
     public abstract void reverse();
 
     public void setY(float yPosition){
