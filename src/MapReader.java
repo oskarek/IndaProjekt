@@ -14,7 +14,10 @@ public class MapReader{
     public MapReader(){
         mapMap = new HashMap<>();
         mapMap.put(1,"res/maps/map1.txt");
-        //mapMap.put(2,"res/maps/map2.txt");
+        mapMap.put(2,"res/maps/map2.txt");
+        mapMap.put(3,"res/maps/map3.txt");
+        mapMap.put(4,"res/maps/map4.txt");
+
     }
 
 

@@ -10,13 +10,15 @@ public class Ball extends Circle implements PlayingFieldItem {
     private float speed;
     private float angle;
     private Image ballImage;
+    private float centerPointX, centerPointY, radius;
 
-    public Ball(float centerPointX, float centerPointY, float radius) throws SlickException {
+    public Ball(float centerPointX, float centerPointY, float radius, float speed) throws SlickException {
         super(centerPointX,centerPointY,radius);
         ballImage = new Image("res/UIButtons/ball.png");
+        this.centerPointX = centerPointX; this.centerPointY = centerPointY; this.radius = radius;
 
         //initiating values
-        speed = 10;
+        this.speed = speed;
         angle = (float) ((Math.PI)/4);
     }
 
@@ -135,7 +137,14 @@ public class Ball extends Circle implements PlayingFieldItem {
 
     @Override
     public void draw(Graphics g) {
-        //g.fill(this);
-        g.drawImage(ballImage,super.getX(),super.getY());
+        g.drawImage(ballImage, super.getX(), super.getY());
+    }
+
+    public void normalSize() {
+        super.setRadius(10);
+    }
+
+    public void fourTimesOriginalSize() {
+        super.setRadius(40);
     }
 }

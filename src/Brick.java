@@ -3,9 +3,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Line;
+import org.newdawn.slick.tests.SoundTest;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.SortedMap;
 
 /**
  * Created by oskarek on 2015-05-16.
@@ -52,7 +54,6 @@ public abstract class Brick implements PlayingFieldItem {
     public void draw(Graphics g){
         Image brickImage = brickImages.get(lives);
         g.drawImage(brickImage,xPosition,yPosition);
-        //g.draw(northLine); g.draw(southLine); g.draw(westLine); g.draw(eastLine);
     }
 
     /**
@@ -78,11 +79,11 @@ public abstract class Brick implements PlayingFieldItem {
         return xPosition;
     }
 
-    public void setyPosition(int yPosition) {
+    public void setY(int yPosition) {
         this.yPosition = yPosition;
     }
 
-    public void setxPosition(int xPosition) {
+    public void setX(int xPosition) {
         this.xPosition = xPosition;
     }
     public Line getNorthLine(){ return northLine; }

@@ -1,6 +1,7 @@
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Circle;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -181,6 +182,17 @@ public class CollideChecker {
         if (angle<0) angle = (float) ((2*Math.PI)+angle);
         else if (angle>=2*Math.PI) angle = (float) (angle-(2*Math.PI));
         return angle;
+    }
+
+    public boolean checkProjectileCollision(ArrayList<Brick> bricks, Projectile projectile){
+        for(Brick brick : bricks) {
+            if (projectile.intersects(brick.getSouthLine()) || projectile.intersects(brick.getBottomLeftCorner())
+                    || projectile.intersects(brick.getBottomRightCorner())) {
+                brick.decrementLife(); Points.getInstance().addPoints(10);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
