@@ -17,7 +17,6 @@ public abstract class PowerUp implements PlayingFieldItem {
     private float width; private float height;
 
     public PowerUp(int xPosition,int yPosition) throws SlickException {
-        image = new Image("res/UIButtons/powerup_bigboard.png");
         this.xPosition = xPosition; this.yPosition = yPosition;
         width = image.getWidth();height = image.getHeight();
         hitBox = new Rectangle(xPosition,yPosition,width,height);

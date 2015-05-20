@@ -28,7 +28,8 @@ public class PlayingField extends BasicGameState {
     private Board board;
     private Ball ball;
     private ArrayList<Brick> bricks;
-    private int timer, timer2; private int prevPowerUp=-1;
+    private int timer, timer2;
+    private int prevPowerUp=-1;
     private PowerUp powerUp;
     private boolean powerUpInvoked, cannonActive, hasFired;
     private ArrayList<Laser> lasers; private ArrayList<Ball> balls; private ArrayList<Projectile> projectiles;
@@ -95,10 +96,20 @@ public class PlayingField extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 
-        for (PlayingFieldItem item : items) { item.draw(g);}
-        for(Projectile projectile : projectiles){ projectile.draw(g);}
-        for(Brick brick : bricks){ if(brick.getBrickImage() != null){ brick.draw(g); }}
-        for(Laser laser: lasers){ laser.draw(g);}
+        for (PlayingFieldItem item : items) {
+            item.draw(g);
+        }
+        for(Projectile projectile : projectiles) {
+            projectile.draw(g);
+        }
+        for(Brick brick : bricks) {
+            if(brick.getBrickImage() != null) {
+                brick.draw(g);
+            }
+        }
+        for(Laser laser: lasers) {
+            laser.draw(g);
+        }
         g.drawString("Points : " + Points.getInstance().getPoints(), container.getWidth() - 120, 0);
 
         if (gamePaused) {
@@ -234,8 +245,6 @@ public class PlayingField extends BasicGameState {
 
     }
 
-
-
     private void updateBallPos(int delta) throws SlickException {
         for(Ball ball : balls){
             float dist = ball.getSpeed()*0.05f*delta;
@@ -254,6 +263,7 @@ public class PlayingField extends BasicGameState {
             }
         }
     }
+
     public void updateProjectilePos(){
         for(Projectile projectile : projectiles){
             projectile.setY(projectile.getY()-5);
@@ -267,6 +277,7 @@ public class PlayingField extends BasicGameState {
 
         }
     }
+
     public void updateLaserPos() throws SlickException {
         if(lasers.size()>0) {
             lasers.add(new Laser(lasers.get(lasers.size()-1).getX(), lasers.get(lasers.size()-1).getY() - 50));

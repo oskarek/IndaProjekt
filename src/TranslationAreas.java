@@ -10,7 +10,14 @@ public enum TranslationAreas {
     QUIT_BUTTON("quit_button"),
     BACK_BUTTON("back_button"),
     INPUT_FIELD("input_field"),
-    PAUSE_STRING("pause_string");
+    PAUSE_STRING("pause_string"),
+    SMALLBOARD_DESCRIPTION("smallboard_description"),
+    BIGBOARD_DESCRIPTION("bigboard_description"),
+    BIGBALL_DESCRIPTION("bigball_description"),
+    FASTBALL_DESCRIPTION("fastball_description"),
+    SLOWBALL_DESCRIPTION("slowball_description"),
+    LASER_DESCRIPTION("laser_description"),
+    CANNON_DESCRIPTION("cannon_description");
 
     private String identifier;
 

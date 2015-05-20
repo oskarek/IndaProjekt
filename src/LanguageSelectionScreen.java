@@ -81,9 +81,11 @@ public class LanguageSelectionScreen extends BasicGameState {
             MainMenu mainMenu = (MainMenu) game.getState(0);
             PlayingField playingField = (PlayingField) game.getState(1);
             HighscoreScreen highscoreScreen = (HighscoreScreen) game.getState(2);
+            PowerupsScreen powerupsScreen = (PowerupsScreen) game.getState(3);
             mainMenu.addButtonLabels();
             playingField.initPauseString();
             highscoreScreen.addLabels();
+            powerupsScreen.addText();
             game.enterState(mainMenu.getID(), new FadeOutTransition(), new FadeInTransition());
         }
 

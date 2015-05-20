@@ -1,3 +1,4 @@
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -7,7 +8,8 @@ public class CannonPowerUp extends PowerUp {
     private Board board;
     public CannonPowerUp(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
-        super.setDuration(500);
+        super.setImage(new Image("res/UIButtons/powerup_cannon.png"));
+        super.setDuration(200);
         this.board = board;
     }
 

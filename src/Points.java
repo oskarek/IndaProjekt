@@ -12,16 +12,19 @@ private int points;
         }
         return instance;
     }
-    public int getPoints(){
+    public int getPoints() {
         return points;
     }
-    public void incrementPoints(){
+    public void incrementPoints() {
         points++;
     }
-    public void addPoints(int points){
+    public void addPoints(int points) {
         this.points+=points;
     }
-    public void decrementPoints(){
+    public void emptyPoints() {
+        points = 0;
+    }
+    public void decrementPoints() {
         points--;
     }
 }

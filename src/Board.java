@@ -59,8 +59,8 @@ public class Board implements PlayingFieldItem {
         rightEdge.setX(x + length - height);
         xPos = x;
         if(activeSmallCannons){
-            smallCannon1.setX(x+height/2+4);
-            smallCannon2.setX(x+length-height/2-4);
+            smallCannon1.setX(x+height/2);
+            smallCannon2.setX(x+length-height/2-10);
         }
         if(activeLaserCannon){
             laserCannon.setX(x+length/2-10);
@@ -121,8 +121,8 @@ public class Board implements PlayingFieldItem {
 
     public void addCannons() throws SlickException {
         activeSmallCannons = true;
-        smallCannon1 = new BulletCannon(xPos+height/2+4,yPos-height);
-        smallCannon2 = new BulletCannon(xPos+length-height/2-4,yPos-height);
+        smallCannon1 = new BulletCannon(xPos+height/2,yPos-height);
+        smallCannon2 = new BulletCannon(xPos+length-height/2-10,yPos-height);
     }
     public void removeCannons(){
         activeSmallCannons = false;

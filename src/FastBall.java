@@ -1,3 +1,4 @@
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -7,6 +8,7 @@ public class FastBall extends PowerUp {
     private Ball ball;
     public FastBall(int xPosition, int yPosition, Ball ball) throws SlickException {
         super(xPosition, yPosition);
+        super.setImage(new Image("res/UIButtons/powerup_fastball.png"));
         super.setDuration(500);
         this.ball = ball;
     }

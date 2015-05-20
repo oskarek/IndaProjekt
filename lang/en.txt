@@ -4,5 +4,12 @@ highscores_button : HIGHSCORES
 powerups_button : POWER-UPS
 quit_button : QUIT
 back_button : BACK
-pause_string : Press the space bar to play
+pause_string : Press the 'p' key to play
 field : Write your name here
+smallboard_description : Halves the size of the board
+bigboard_description : Doubles the size of the board
+bigball_description : Makes the ball bigger
+fastball_description : Doubles the speed of the ball
+slowball_description : Halves the speed of the ball
+laser_description : Equips the board with a laser cannon [shoot with spacebar]
+cannon_description : Equips the board with two guns [shoot with spacebar]

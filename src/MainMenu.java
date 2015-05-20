@@ -171,10 +171,13 @@ public class MainMenu extends BasicGameState {
         if (buttons.get(START_BUTTON).isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
             //PlayingField playingField = (PlayingField) game.getState(1);
             //playingField.setTimer(container);
+//            if (!gameOnGoing) {
+//                gameIsOnGoing();
+//            }
+            game.enterState(1, new FadeOutTransition(), new FadeInTransition());
             if (!gameOnGoing) {
                 gameIsOnGoing();
             }
-            game.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }
         // check if the quit button has been pressed, and if it has:
         // terminate the app

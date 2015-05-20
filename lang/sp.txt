@@ -4,5 +4,12 @@ highscores_button : PUNTAJES ALTOS
 powerups_button : POWER-UPS
 quit_button : DEJAR
 back_button : ESPALDA
-pause_string : Pulse la barra espaciadora para jugar
+pause_string : Pulse la tecla p para jugar
 field : Escribir su nombre aquí
+smallboard_description : Reduce a la mitad el tamaño del tablero
+bigboard_description : Duplica el tamaño del tablero
+bigball_description : Hace que la bola más grande
+fastball_description : Duplica la velocidad de la pelota
+slowball_description : Reduce a la mitad la velocidad de la pelota
+laser_description : Equipa el tablero con un cañón láser [disparar con la barra espaciadora]
+cannon_description : Equipa el tablero con dos pistolas [disparar con la barra espaciadora]

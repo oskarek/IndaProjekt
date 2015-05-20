@@ -35,14 +35,7 @@ public class CollideChecker {
         for(Brick brick : bricks){
             boolean hitBrick = false;
             boolean hitCorner = false;
-            /*for (Circle corner : brick.getCorners()) {
-                if (ball.intersects(corner)) {
-                    float angle = getDirectionAfterCollisionWithCircle(ball,corner);
-                    ball.setDirection(angle);
-                    hitCorner = true;
-                    break;
-                }
-            }*/
+
             if (ball.intersects(brick.getTopLeftCorner())) {
                 float angle = getDirectionAfterCollisionWithCircle(ball,brick.getTopLeftCorner());
                 if ((!ball.hasPositiveXDirection()) && angle<reverseVerticalDirection(angle)) ball.reverseVerticalDirection();

@@ -23,6 +23,8 @@ public class HighscoreScreen extends BasicGameState {
     private Button backButton;
     private ArrayList<String> highscoreList;
     private TrueTypeFont font;
+    private boolean newScoreAdded;
+    private String newScore;
     private TrueTypeFont font2;
 
     @Override
@@ -34,6 +36,7 @@ public class HighscoreScreen extends BasicGameState {
         // load a default java font
         Font awtFont = new Font("Times New Roman", Font.BOLD, 18);
         font = new TrueTypeFont(awtFont, true);
+        newScoreAdded = false;
         updateHighscoreList();
         createButtons(container);
 
@@ -91,8 +94,9 @@ public class HighscoreScreen extends BasicGameState {
         backButton.setLabel(label,18);
     }
 
-    public void newScoreAdded() {
-
+    public void newScoreAdded(int score, String name) {
+        newScoreAdded = true;
+        newScore = score + " " + name;
     }
 
     @Override
@@ -102,9 +106,17 @@ public class HighscoreScreen extends BasicGameState {
 
         g.drawImage(new Image("res/UIButtons/star.png"),120, -100);
         int x = 420; int y = 130;
+        boolean newScoreWritten = false;
         for (int i = 0; i < highscoreList.size();i++) {
             String currentScore = highscoreList.get(i);
-            font.drawString(x,y,i+1 + ": " + currentScore,Color.black);
+            Color color;
+            if (currentScore.equals(newScore) && (!newScoreWritten)) {
+                color = Color.red;
+                newScoreWritten = true;
+            } else {
+                color = Color.black;
+            }
+            font.drawString(x,y,i+1 + ": " + currentScore,color);
             y+=30;
         }
     }
@@ -114,6 +126,8 @@ public class HighscoreScreen extends BasicGameState {
         Input input = container.getInput();
         if (backButton.isMouseOver() && input.isMousePressed(Input.MOUSE_LEFT_BUTTON)
                 || input.isKeyPressed(Input.KEY_ESCAPE)) {
+            newScoreAdded = false;
+            newScore = null;
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
         }
     }
