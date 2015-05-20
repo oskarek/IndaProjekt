@@ -11,7 +11,7 @@ public class Projectile extends Circle implements PlayingFieldItem {
     private float yPosition;
     public Projectile(float centerPointX, float centerPointY, float radius) throws SlickException {
         super(centerPointX,centerPointY,radius);
-        projImage = new Image("res/UIButtons/projectile.png");
+        projImage = new Image("res/UIElements/projectile.png");
     }
 
     @Override

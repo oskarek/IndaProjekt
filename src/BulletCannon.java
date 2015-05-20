@@ -9,7 +9,7 @@ public class BulletCannon extends Cannon {
     float xPosition, yPosition;
     public BulletCannon(float xPosition, float yPosition) throws SlickException {
         super(xPosition, yPosition);
-        super.setCannonImage(new Image("res/UIButtons/cannon.png"));
+        super.setCannonImage(new Image("res/UIElements/cannon.png"));
         this.xPosition=xPosition;this.yPosition=yPosition;
     }
 }

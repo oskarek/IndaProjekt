@@ -90,17 +90,11 @@ public class CollideChecker {
             }
         }
 
-        // check if the ball has hit the floor or celing
-        if (ball.getMaxY() >= floorPos) {
-            ball.setY(floorPos - 2*ball.getRadius());
-            ball.reverseVerticalDirection();
-        } else if (ball.getY() <= ceilingPos) {
+        // check if the ball has hit the ceiling or one of the walls
+        if (ball.getY() <= ceilingPos) {
             ball.setY(ceilingPos);
             ball.reverseVerticalDirection();
-        }
-
-        // check if the ball has hit one of the walls
-        if (ball.getMaxX() >= rightWallPos) {
+        } else if (ball.getMaxX() >= rightWallPos) {
             ball.setX(rightWallPos - 2 * ball.getRadius());
             ball.reverseHorizontalDirection();
         } else if (ball.getX() <= leftwallPos) {
@@ -114,11 +108,11 @@ public class CollideChecker {
             ball.reverseVerticalDirection();
         } else if (ball.intersects(board.getLeftEdge())) {
             float angle = getDirectionAfterCollisionWithCircle(ball, board.getLeftEdge());
-            if (angle<((Math.PI)/2)) ball.reverseVerticalDirection();
+            if (angle<((Math.PI)/2) || angle>(3*Math.PI)/2) ball.reverseVerticalDirection();
             else ball.setDirection(angle);
         } else if (ball.intersects(board.getRightEdge())) {
             float angle = getDirectionAfterCollisionWithCircle(ball, board.getRightEdge());
-            if (angle>((Math.PI)/2) && angle<Math.PI) ball.reverseVerticalDirection();
+            if (angle>((Math.PI)/2) && angle<(3*Math.PI)/2) ball.reverseVerticalDirection();
             else ball.setDirection(angle);
         }
     }
@@ -224,11 +218,4 @@ public class CollideChecker {
     public float reverseVerticalDirection(float angle) {
         return (float) (2*Math.PI-angle);
     }
-
-    /*public Speed getSpeedAfterCollision2(Ball ball, Board board){
-        float Y = (float) ball.getY()/(Math.abs(ball.getX()+ball.getRadius()-(board.getX()+board.getLength()/2)+3));
-        float X = ball.getX();
-        return new Speed(X,Y);
-    }
-    */
 }

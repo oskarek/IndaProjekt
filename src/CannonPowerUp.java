@@ -8,7 +8,7 @@ public class CannonPowerUp extends PowerUp {
     private Board board;
     public CannonPowerUp(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
-        super.setImage(new Image("res/UIButtons/powerup_cannon.png"));
+        super.setImage(new Image("res/UIElements/powerup_cannon.png"));
         super.setDuration(200);
         this.board = board;
     }

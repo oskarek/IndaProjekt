@@ -14,8 +14,8 @@ public class Ball extends Circle implements PlayingFieldItem {
 
     public Ball(float centerPointX, float centerPointY, float radius, float speed) throws SlickException {
         super(centerPointX,centerPointY,radius);
-        bigSizeBallImage = new Image("res/UIButtons/ball_x4.png");
-        normalSizeBallImage = new Image("res/UIButtons/ball.png");
+        bigSizeBallImage = new Image("res/UIElements/ball_x4.png");
+        normalSizeBallImage = new Image("res/UIElements/ball.png");
         currentBallImage = normalSizeBallImage;
         this.centerPointX = centerPointX; this.centerPointY = centerPointY; this.radius = radius;
 

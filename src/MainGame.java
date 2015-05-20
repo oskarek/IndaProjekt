@@ -5,6 +5,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import java.awt.*;
 
 /**
+ * The main class that initiates the game.
  * Created by oskarek on 2015-05-10.
  */
 public class MainGame extends StateBasedGame {
@@ -24,7 +25,8 @@ public class MainGame extends StateBasedGame {
         addState(new PlayingField());
         addState(new HighscoreScreen());
         addState(new PowerupsScreen());
-        addState(new WinningScreen());
+        addState(new WinScreen());
+        addState(new GameOverScreen());
     }
 
     public static void main(String[] args) throws SlickException {

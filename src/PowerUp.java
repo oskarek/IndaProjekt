@@ -18,12 +18,12 @@ public abstract class PowerUp implements PlayingFieldItem {
 
     public PowerUp(int xPosition,int yPosition) throws SlickException {
         this.xPosition = xPosition; this.yPosition = yPosition;
-        width = image.getWidth();height = image.getHeight();
+        width = 50; height = 50;
         hitBox = new Rectangle(xPosition,yPosition,width,height);
     }
     @Override
     public void draw(Graphics g) {
-        g.drawImage(image, xPosition, yPosition);
+        if (image!=null) g.drawImage(image, xPosition, yPosition);
     }
 
     /**

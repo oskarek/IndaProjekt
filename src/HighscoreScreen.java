@@ -59,8 +59,8 @@ public class HighscoreScreen extends BasicGameState {
     }
 
     public void createButtons(GameContainer container) throws SlickException {
-        Image backButtonImage = new Image("res/UIButtons/backbutton.png");
-        Image backButtonPressed = new Image("res/UIButtons/backbutton_pressed.png");
+        Image backButtonImage = new Image("res/UIElements/backbutton.png");
+        Image backButtonPressed = new Image("res/UIElements/backbutton_pressed.png");
         int width = backButtonImage.getWidth();
         int height = backButtonImage.getHeight();
         int yPos = container.getHeight()-height-10;
@@ -78,17 +78,7 @@ public class HighscoreScreen extends BasicGameState {
 
     public void addLabels() {
         String currLangFileName = "lang/currentlang.txt";
-        String langFile = null;
-        try (BufferedReader file = new BufferedReader(new FileReader(currLangFileName))) {
-            langFile = file.readLine();
-        } catch (FileNotFoundException e) {
-            System.err.println("Couldn't find the currentlang file.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (langFile == null) {
-            throw new RuntimeException("The currentlang file is empty.");
-        }
+        String langFile = langReader.getCurrentLanguageFileName();
 
         String label = langReader.getString(TranslationAreas.BACK_BUTTON,langFile);
         backButton.setLabel(label,18);
@@ -104,7 +94,7 @@ public class HighscoreScreen extends BasicGameState {
         // render the button
         backButton.render(container, g);
 
-        g.drawImage(new Image("res/UIButtons/star.png"),120, -100);
+        g.drawImage(new Image("res/UIElements/star.png"),120, -100);
         int x = 420; int y = 130;
         boolean newScoreWritten = false;
         for (int i = 0; i < highscoreList.size();i++) {

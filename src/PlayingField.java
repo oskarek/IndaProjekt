@@ -30,7 +30,6 @@ public class PlayingField extends BasicGameState {
     private Ball ball;
     private ArrayList<Brick> bricks;
     private int timer, timer2;
-    private int prevPowerUp=-1;
     private PowerUp powerUp;
     private boolean powerUpInvoked, cannonActive, hasFired;
     private ArrayList<Laser> lasers; private ArrayList<Ball> balls; private ArrayList<Projectile> projectiles;
@@ -97,9 +96,6 @@ public class PlayingField extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
 
-        for (PlayingFieldItem item : items) {
-            item.draw(g);
-        }
         for(Projectile projectile : projectiles) {
             projectile.draw(g);
         }
@@ -112,6 +108,9 @@ public class PlayingField extends BasicGameState {
             laser.draw(g);
         }
         g.drawString("Points : " + Points.getInstance().getPoints(), container.getWidth() - 120, 0);
+        for (PlayingFieldItem item : items) {
+            item.draw(g);
+        }
 
         if (gamePaused) {
             int stringWidth = font.getWidth(pauseString);
@@ -172,36 +171,37 @@ public class PlayingField extends BasicGameState {
             if (timer % 800 == 0) {
                 Random rand = new Random();
                 int r= rand.nextInt(7);
-                while(r == prevPowerUp){
-                    r = rand.nextInt(7);
-                }
                 int x = rand.nextInt(container.getWidth());
                 int y = -50;
-                switch (r) {
-                    case 0:
-                        powerUp = new FastBall(x, y, ball);
-                        break;
-                    case 1:
-                        powerUp = new SlowBall(x, y, ball);
-                        break;
-                    case 2:
-                        powerUp = new BigBoard(x, y, board);
-                        break;
-                    case 3:
-                        powerUp = new SmallBoard(x, y, board);
-                        break;
-                    case 4:
-                        powerUp = new BigBall(x, y, ball);
-                        break;
-                    case 5:
-                        powerUp = new CannonPowerUp(x, y, board);
-                        cannonActive=true;
-                        break;
-                    case 6:
-                        powerUp = new LaserPowerUp(x,y,board);
-                        cannonActive=true;
-                        break;
-                }
+                PowerUp newPowerUp = powerUp;
+                do {
+                    switch (r) {
+                        case 0:
+                            newPowerUp = new FastBall(x, y, ball);
+                            break;
+                        case 1:
+                            newPowerUp = new SlowBall(x, y, ball);
+                            break;
+                        case 2:
+                            newPowerUp = new BigBoard(x, y, board);
+                            break;
+                        case 3:
+                            newPowerUp = new SmallBoard(x, y, board);
+                            break;
+                        case 4:
+                            newPowerUp = new BigBall(x, y, ball);
+                            break;
+                        case 5:
+                            newPowerUp = new CannonPowerUp(x, y, board);
+                            cannonActive = true;
+                            break;
+                        case 6:
+                            newPowerUp = new LaserPowerUp(x, y, board);
+                            cannonActive = true;
+                            break;
+                    }
+                } while (newPowerUp.equals(powerUp));
+                powerUp = newPowerUp;
                 items.add(powerUp);
             }
 
@@ -224,6 +224,13 @@ public class PlayingField extends BasicGameState {
                     return;
                 }
                 initBricks(mapNum);
+            }
+
+            // check if the game has been lost
+            if (ball.getY()>contHeight) {
+                MainMenu mainMenu = (MainMenu) game.getState(0);
+                mainMenu.gameIsFinished();
+                game.enterState(6, new FadeOutTransition(), new FadeInTransition());
             }
 
             if (powerUpInvoked) {
@@ -289,7 +296,7 @@ public class PlayingField extends BasicGameState {
             lasers.add(new Laser(lasers.get(lasers.size()-1).getX(), lasers.get(lasers.size()-1).getY() - 50));
             for(Laser laser: lasers){
                 laser.setX((board.getXPosLaserCannon()+4));
-                collideChecker.checkLaserCollision(bricks,laser);
+                collideChecker.checkLaserCollision(bricks, laser);
             }
             if(!board.ableToShootLaserCannon()){
                 lasers = new ArrayList<>();

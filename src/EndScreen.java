@@ -7,24 +7,15 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.gui.TextField;
 
-import java.awt.*;
 import java.awt.Font;
 
 /**
  * Created by RobertLorentz on 13/05/15.
  */
-public class WinningScreen extends BasicGameState {
-    private Button inputButton;
-    private LangFileReader langReader;
+public abstract class EndScreen extends BasicGameState {
     private TrueTypeFont font;
-    private TextField nameInput;
-    private Cursor textCursor;
-    private Cursor defaultCursor;
     private TextField tx;
-
-    public WinningScreen(){
-
-    }
+    private String message, typeName, typeNamePrompt;
 
     @Override
     public int getID() {
@@ -35,12 +26,16 @@ public class WinningScreen extends BasicGameState {
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         Font awtFont = new Font("Times New Roman", Font.BOLD, 18);
         font = new TrueTypeFont(awtFont, true);
-        // textCursor = new Cursor(Cursor.TEXT_CURSOR); defaultCursor = Cursor.getDefaultCursor();
 
+        LangFileReader langReader = new LangFileReader();
+        String langFile = langReader.getCurrentLanguageFileName();
+        typeName = langReader.getString(TranslationAreas.ENTERNAME_MESSAGE, langFile);
+        typeNamePrompt = langReader.getString(TranslationAreas.ENTERNAME_PROMPT, langFile);
         int txWidth = 350;
         int txHeight = 30;
-        tx = new TextField(container, font, container.getWidth()/2-txWidth/2,
-                            container.getHeight()/2-txHeight, txWidth, txHeight);
+        int txX = container.getWidth()/2-txWidth/2;
+        int txY = container.getHeight()/2-txHeight;
+        tx = new TextField(container, font, txX, txY, txWidth, txHeight);
         tx.setBackgroundColor(Color.white);
         tx.setMaxLength(20);
         tx.setTextColor(Color.black);
@@ -49,14 +44,19 @@ public class WinningScreen extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         tx.render(container, g);
-        g.drawString("Grattis du har vunnit spelet, poäng: " + Points.getInstance().getPoints()
-                , container.getWidth() / 2 - 175, container.getHeight() / 2 - 90);
-        g.drawString("Skriv ditt namn i rutan", container.getWidth()/2-175,container.getHeight()/2-60);
+        Font awtFont = new Font("Times New Roman", Font.BOLD, 22);
+        TrueTypeFont newFont = new TrueTypeFont(awtFont, true);
+        int messageWidth = newFont.getWidth(message);
+        int typeNameWidth = newFont.getWidth(typeName);
+        font.drawString(container.getWidth()/2 - messageWidth/2, container.getHeight()/2 - 90,
+                message + " " + Points.getInstance().getPoints());
+        font.drawString(container.getWidth()/2-typeNameWidth/2,container.getHeight()/2-60, typeName);
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
+
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(0, new FadeOutTransition(), new FadeInTransition());
         }
@@ -66,7 +66,7 @@ public class WinningScreen extends BasicGameState {
         if(input.isKeyPressed(Input.KEY_ENTER)){
             String name = tx.getText();
             if(name == null){
-                System.out.println("Please write your name");
+                System.out.println(typeNamePrompt);
                 return;
             }
             tx.deactivate();
@@ -82,6 +82,9 @@ public class WinningScreen extends BasicGameState {
         }
     }
 
+    protected void addMessage(String message) {
+        this.message = message;
+    }
 }
 
 

@@ -24,9 +24,9 @@ public class Board implements PlayingFieldItem {
         body = new Rectangle(x+height/2,y,length-height,height);
         leftEdge = new Circle(x+height/2,y+height/2,height/2);
         rightEdge = new Circle(x+length-height/2,y+height/2,height/2);
-        boardImage = new Image("res/UIButtons/board.png");
-        boardImageDouble = new Image("res/UIButtons/board_x2.png");
-        boardImageHalf = new Image("res/UIButtons/board_half.png");
+        boardImage = new Image("res/UIElements/board.png");
+        boardImageDouble = new Image("res/UIElements/board_x2.png");
+        boardImageHalf = new Image("res/UIElements/board_half.png");
         currentBoardImage = boardImage;
         speed = 8;
     }

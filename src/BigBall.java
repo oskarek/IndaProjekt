@@ -8,7 +8,7 @@ public class BigBall extends PowerUp {
     private Ball ball;
     public BigBall(int xPosition, int yPosition, Ball ball) throws SlickException {
         super(xPosition, yPosition);
-        super.setImage(new Image("res/UIButtons/powerup_bigball.png"));
+        super.setImage(new Image("res/UIElements/powerup_bigball.png"));
         super.setDuration(500);
         this.ball = ball;
     }

@@ -57,14 +57,14 @@ public class MainMenu extends BasicGameState {
         buttons = new ArrayList<>();
 
         // add buttons and pressed buttons images to ArrayLists
-        buttonImages.add(new Image("res/UIButtons/startbutton.png"));
-        pressedButtons.add(new Image("res/UIButtons/startbutton_pressed.png"));
-        buttonImages.add(new Image("res/UIButtons/highscorebutton.png"));
-        pressedButtons.add(new Image("res/UIButtons/highscorebutton_pressed.png"));
-        buttonImages.add(new Image("res/UIButtons/powerupsbutton.png"));
-        pressedButtons.add(new Image("res/UIButtons/powerupsbutton_pressed.png"));
-        buttonImages.add(new Image("res/UIButtons/quitbutton.png"));
-        pressedButtons.add(new Image("res/UIButtons/quitbutton_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/startbutton.png"));
+        pressedButtons.add(new Image("res/UIElements/startbutton_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/highscorebutton.png"));
+        pressedButtons.add(new Image("res/UIElements/highscorebutton_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/powerupsbutton.png"));
+        pressedButtons.add(new Image("res/UIElements/powerupsbutton_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/quitbutton.png"));
+        pressedButtons.add(new Image("res/UIElements/quitbutton_pressed.png"));
 
         // create the buttons
         int lastYBottomPos = 50;

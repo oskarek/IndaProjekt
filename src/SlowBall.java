@@ -8,7 +8,7 @@ public class SlowBall extends PowerUp {
     private Ball ball;
     public SlowBall(int xPosition, int yPosition, Ball ball) throws SlickException {
         super(xPosition, yPosition);
-        super.setImage(new Image("res/UIButtons/powerup_slowball.png"));
+        super.setImage(new Image("res/UIElements/powerup_slowball.png"));
         super.setDuration(500);
         this.ball = ball;
     }

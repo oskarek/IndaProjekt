@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
+ * The screen that describes the different powerups.
  * Created by RobertLorentz on 11/05/15.
  */
 public class PowerupsScreen extends BasicGameState {
@@ -34,8 +35,8 @@ public class PowerupsScreen extends BasicGameState {
     }
 
     public void createButtons(GameContainer container) throws SlickException {
-        Image backButtonImage = new Image("res/UIButtons/backbutton.png");
-        Image backButtonPressed = new Image("res/UIButtons/backbutton_pressed.png");
+        Image backButtonImage = new Image("res/UIElements/backbutton.png");
+        Image backButtonPressed = new Image("res/UIElements/backbutton_pressed.png");
         int width = backButtonImage.getWidth();
         int height = backButtonImage.getHeight();
         int yPos = container.getHeight()-height-10;
@@ -54,19 +55,19 @@ public class PowerupsScreen extends BasicGameState {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.drawImage(new Image("res/UIButtons/powerup_smallboard.png"), 50, 50);
+        g.drawImage(new Image("res/UIElements/powerup_smallboard.png"), 50, 50);
         font.drawString(110, 65, " - " + smallBoardString);
-        g.drawImage(new Image("res/UIButtons/powerup_bigboard.png"), 50, 125);
+        g.drawImage(new Image("res/UIElements/powerup_bigboard.png"), 50, 125);
         font.drawString(110, 140, " - " + bigBoardString);
-        g.drawImage(new Image("res/UIButtons/powerup_slowball.png"), 50, 200);
+        g.drawImage(new Image("res/UIElements/powerup_slowball.png"), 50, 200);
         font.drawString(110, 215, " - " + slowBallString);
-        g.drawImage(new Image("res/UIButtons/powerup_fastball.png"), 50, 275);
+        g.drawImage(new Image("res/UIElements/powerup_fastball.png"), 50, 275);
         font.drawString(110, 290, " - " + fastBallstring);
-        g.drawImage(new Image("res/UIButtons/powerup_bigball.png"), 50, 350);
+        g.drawImage(new Image("res/UIElements/powerup_bigball.png"), 50, 350);
         font.drawString(110, 365, " - " + bigBallString);
-        g.drawImage(new Image("res/UIButtons/powerup_laser.png"), 50, 425);
+        g.drawImage(new Image("res/UIElements/powerup_laser.png"), 50, 425);
         font.drawString(110, 440, " - " + laserString);
-        g.drawImage(new Image("res/UIButtons/powerup_cannon.png"), 50, 500);
+        g.drawImage(new Image("res/UIElements/powerup_cannon.png"), 50, 500);
         font.drawString(110, 515," - " + cannonString);
 
         backButton.render(container, g);

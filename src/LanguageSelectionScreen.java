@@ -35,12 +35,12 @@ public class LanguageSelectionScreen extends BasicGameState {
         flagButtons = new ArrayList<>();
 
         // add buttons and pressed buttons images to ArrayLists
-        buttonImages.add(new Image("res/UIButtons/sv_flag.png"));
-        pressedButtons.add(new Image("res/UIButtons/sv_flag_pressed.png"));
-        buttonImages.add(new Image("res/UIButtons/usa_flag.png"));
-        pressedButtons.add(new Image("res/UIButtons/usa_flag_pressed.png"));
-        buttonImages.add(new Image("res/UIButtons/sp_flag.png"));
-        pressedButtons.add(new Image("res/UIButtons/sp_flag_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/sv_flag.png"));
+        pressedButtons.add(new Image("res/UIElements/sv_flag_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/usa_flag.png"));
+        pressedButtons.add(new Image("res/UIElements/usa_flag_pressed.png"));
+        buttonImages.add(new Image("res/UIElements/sp_flag.png"));
+        pressedButtons.add(new Image("res/UIElements/sp_flag_pressed.png"));
 
         // create the buttons
         int lastxMaxPos = 60;

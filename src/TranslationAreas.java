@@ -17,7 +17,11 @@ public enum TranslationAreas {
     FASTBALL_DESCRIPTION("fastball_description"),
     SLOWBALL_DESCRIPTION("slowball_description"),
     LASER_DESCRIPTION("laser_description"),
-    CANNON_DESCRIPTION("cannon_description");
+    CANNON_DESCRIPTION("cannon_description"),
+    CONGRATULATIONS_MESSAGE("congratulations_message"),
+    GAMEOVER_MESSAGE("gameover_message"),
+    ENTERNAME_MESSAGE("entername_message"),
+    ENTERNAME_PROMPT("entername_prompt");
 
     private String identifier;
 

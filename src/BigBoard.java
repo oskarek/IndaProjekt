@@ -9,7 +9,7 @@ public class BigBoard extends PowerUp {
     private Board board;
     public BigBoard(int xPosition, int yPosition, Board board) throws SlickException {
         super(xPosition, yPosition);
-        super.setImage(new Image("res/UIButtons/powerup_bigboard.png"));
+        super.setImage(new Image("res/UIElements/powerup_bigboard.png"));
         super.setDuration(500);
         this.board = board;
     }

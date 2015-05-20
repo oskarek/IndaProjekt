@@ -1,15 +1,19 @@
-start_button : STARTA SPELET
-continue_button : FORTSÄTT
-highscores_button : TOPPLISTA
-powerups_button : POWER-UPS
-quit_button : AVSLUTA
-back_button : TILLBAKA
-pause_string : Tryck på knappen 'p' för att spela
-input_field : Skriv ditt namn här
-smallboard_description : Halverar storleken på brädan
-bigboard_description : Dubblerar storleken på brädan
-bigball_description : Gör bollen större
-fastball_description : Dubblerar hastigheten på bollen
-slowball_description : Halverar hastigheten på bollen
-laser_description : Utrustar brädan med en laserkanon [skjut med mellanslag]
-cannon_description : Utrustar brädan med två pistoler [skjut med mellanslag]
+start_button = STARTA SPELET
+continue_button = FORTSÄTT
+highscores_button = TOPPLISTA
+powerups_button = POWER-UPS
+quit_button = AVSLUTA
+back_button = TILLBAKA
+pause_string = Tryck på knappen 'p' för att spela
+input_field = Skriv ditt namn här
+smallboard_description = Halverar storleken på brädan
+bigboard_description = Dubblerar storleken på brädan
+bigball_description = Gör bollen större
+fastball_description = Dubblerar hastigheten på bollen
+slowball_description = Halverar hastigheten på bollen
+laser_description = Utrustar brädan med en laserkanon [skjut med mellanslag]
+cannon_description = Utrustar brädan med två pistoler [skjut med mellanslag]
+congratulations_message = Grattis du har vunnit spelet! Poäng:
+gameover_message = Game over! Poäng:
+entername_message = Skriv ditt namn i rutan
+entername_prompt = Var god skriv in ditt namn i rutan först

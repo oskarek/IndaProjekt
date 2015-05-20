@@ -11,7 +11,7 @@ public class Laser extends Rectangle implements PlayingFieldItem {
     private Image laserImage;
     public Laser(float centerPointX, float centerPointY) throws SlickException {
         super(centerPointX,centerPointY,5,600);
-        laserImage = new Image("res/UIButtons/laser.png");
+        laserImage = new Image("res/UIElements/laser.png");
     }
 
     @Override
