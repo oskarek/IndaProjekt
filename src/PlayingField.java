@@ -19,6 +19,7 @@ import java.awt.Font;
  */
 public class PlayingField extends BasicGameState {
     private int contWidth, contHeight;
+    private int mapNum = 1;
     private LangFileReader langReader;
     private CollideChecker collideChecker;
     private String pauseString;
@@ -66,16 +67,16 @@ public class PlayingField extends BasicGameState {
         items.add(board);
         MapMaker mapmaker = new MapMaker();
         mapmaker.writeMap(container);
-        initBricks();
+        initBricks(mapNum);
         Points.getInstance().addPoints(500);
         projectiles = new ArrayList<>(); lasers = new ArrayList<>();
 
 
     }
 
-    public void initBricks() throws SlickException {
+    public void initBricks(int mapNum) throws SlickException {
         MapReader mapReader = new MapReader();
-        ArrayList<ArrayList<Integer>> mapInfo = mapReader.readMap(3);
+        ArrayList<ArrayList<Integer>> mapInfo = mapReader.readMap(mapNum);
         ArrayList<Integer> brickXPositions = mapInfo.get(0);
         ArrayList<Integer> brickYPositions = mapInfo.get(1);
         ArrayList<Integer> brickLevels = mapInfo.get(2);
@@ -215,9 +216,14 @@ public class PlayingField extends BasicGameState {
             }
             //check if the game has been beaten
             if (bricks.size() <= 0) {
-                MainMenu mainMenu = (MainMenu) game.getState(0);
-                mainMenu.gameIsFinished();
-                game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+                mapNum++;
+                if(mapNum > 4){
+                    MainMenu mainMenu = (MainMenu) game.getState(0);
+                    mainMenu.gameIsFinished();
+                    game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+                    return;
+                }
+                initBricks(mapNum);
             }
 
             if (powerUpInvoked) {
