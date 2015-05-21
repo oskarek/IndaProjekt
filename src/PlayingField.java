@@ -53,7 +53,7 @@ public class PlayingField extends BasicGameState {
         font = new TrueTypeFont(awtFont, true);
         gamePaused = true;
         items = new ArrayList<>();
-        board = new Board(70,contHeight-30,80,15);
+        board = new Board(contWidth-40,contHeight-30,80,15);
         float ballRadius = 10;
         float ballXPos = board.getX()+board.getLength()/2;
         float ballYPos = board.getY()-ballRadius;
@@ -225,6 +225,9 @@ public class PlayingField extends BasicGameState {
                     game.enterState(endScreen.getID(), new FadeOutTransition(), new FadeInTransition());
                     return;
                 }
+                board.setX(contWidth-board.getLength()/2);
+                ball.setLocation(board.getX()+board.getLength()/2-ball.getRadius(), board.getY()-2*ball.getRadius());
+                gamePaused = true;
                 initBricks(mapNum);
             }
 
