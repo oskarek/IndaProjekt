@@ -12,7 +12,7 @@ import java.awt.Font;
 /**
  * Created by RobertLorentz on 13/05/15.
  */
-public abstract class EndScreen extends BasicGameState {
+public class EndScreen extends BasicGameState {
     private TrueTypeFont font;
     private TextField tx;
     private String message, typeName, typeNamePrompt;
@@ -44,10 +44,8 @@ public abstract class EndScreen extends BasicGameState {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         tx.render(container, g);
-        Font awtFont = new Font("Times New Roman", Font.BOLD, 22);
-        TrueTypeFont newFont = new TrueTypeFont(awtFont, true);
-        int messageWidth = newFont.getWidth(message);
-        int typeNameWidth = newFont.getWidth(typeName);
+        int messageWidth = font.getWidth(message + " " + Points.getInstance().getPoints());
+        int typeNameWidth = font.getWidth(typeName);
         font.drawString(container.getWidth()/2 - messageWidth/2, container.getHeight()/2 - 90,
                 message + " " + Points.getInstance().getPoints());
         font.drawString(container.getWidth()/2-typeNameWidth/2,container.getHeight()/2-60, typeName);
@@ -57,12 +55,6 @@ public abstract class EndScreen extends BasicGameState {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
 
-        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            game.enterState(0, new FadeOutTransition(), new FadeInTransition());
-        }
-        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            container.exit();
-        }
         if(input.isKeyPressed(Input.KEY_ENTER)){
             String name = tx.getText();
             if(name == null){
@@ -82,8 +74,10 @@ public abstract class EndScreen extends BasicGameState {
         }
     }
 
-    protected void addMessage(String message) {
-        this.message = message;
+    protected void addMessage(TranslationAreas messageVersion) {
+        LangFileReader langReader = new LangFileReader();
+        String langFile = langReader.getCurrentLanguageFileName();
+        this.message = langReader.getString(messageVersion, langFile);
     }
 }
 

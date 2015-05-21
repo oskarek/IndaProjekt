@@ -219,8 +219,10 @@ public class PlayingField extends BasicGameState {
                 mapNum++;
                 if(mapNum > 4){
                     MainMenu mainMenu = (MainMenu) game.getState(0);
+                    EndScreen endScreen = (EndScreen) game.getState(4);
                     mainMenu.gameIsFinished();
-                    game.enterState(4, new FadeOutTransition(), new FadeInTransition());
+                    endScreen.addMessage(TranslationAreas.CONGRATULATIONS_MESSAGE);
+                    game.enterState(endScreen.getID(), new FadeOutTransition(), new FadeInTransition());
                     return;
                 }
                 initBricks(mapNum);
@@ -229,8 +231,10 @@ public class PlayingField extends BasicGameState {
             // check if the game has been lost
             if (ball.getY()>contHeight) {
                 MainMenu mainMenu = (MainMenu) game.getState(0);
+                EndScreen endScreen = (EndScreen) game.getState(4);
                 mainMenu.gameIsFinished();
-                game.enterState(6, new FadeOutTransition(), new FadeInTransition());
+                endScreen.addMessage(TranslationAreas.GAMEOVER_MESSAGE);
+                game.enterState(endScreen.getID(), new FadeOutTransition(), new FadeInTransition());
             }
 
             if (powerUpInvoked) {

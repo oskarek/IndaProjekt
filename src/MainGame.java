@@ -25,8 +25,7 @@ public class MainGame extends StateBasedGame {
         addState(new PlayingField());
         addState(new HighscoreScreen());
         addState(new PowerupsScreen());
-        addState(new WinScreen());
-        addState(new GameOverScreen());
+        addState(new EndScreen());
     }
 
     public static void main(String[] args) throws SlickException {
